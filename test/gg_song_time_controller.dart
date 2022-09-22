@@ -5,29 +5,29 @@
 // found in the LICENSE file in the root of this package.
 
 import 'package:fake_async/fake_async.dart';
-import 'package:gg_music_xml_player/src/gg_music_xml_player_player.dart';
+import 'package:gg_music_xml_player/src/gg_song_time_controller.dart';
 import 'package:test/test.dart';
 
 void main() {
-  late GgMusicXmlPlayer ggMusicXmlPlayer;
+  late GgSongTimeController ggSongTimeController;
 
   void init(FakeAsync fake) {
-    ggMusicXmlPlayer = exampleGgMusicXmlPlayer();
+    ggSongTimeController = exampleGgSongTimeController();
     fake.flushMicrotasks();
   }
 
   void dispose(FakeAsync fake) {
-    ggMusicXmlPlayer.dispose();
+    ggSongTimeController.dispose();
     fake.flushMicrotasks();
   }
 
-  group('GgMusicXmlPlayer', () {
+  group('GgSongTimeController', () {
     // #########################################################################
     group('initialization', () {
       test('should work fine', () {
         fakeAsync((fake) {
           init(fake);
-          expect(ggMusicXmlPlayer, isNotNull);
+          expect(ggSongTimeController, isNotNull);
           dispose(fake);
         });
       });
