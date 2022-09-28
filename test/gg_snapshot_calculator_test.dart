@@ -4,6 +4,8 @@
 // Use of this source code is governed by terms that can be
 // found in the LICENSE file in the root of this package.
 
+import 'dart:developer';
+
 import 'package:gg_music_xml_player/src/gg_snapshot_calculator.dart';
 import 'package:test/test.dart';
 import 'package:fake_async/fake_async.dart';
@@ -26,12 +28,23 @@ void main() {
       test('should return the right snapshot for the given time', () {
         // At the beginning, the snapshot should have no notes
         // but the right time and key signature and the right tempo
-        final snapshot = ggSnapshotGenerator.snapshot(timePosition: 0.0);
-        print(snapshot);
+        final snapshots = ggSnapshotGenerator.snapshots;
 
-        // expect(snapshot.keySignature.key, -2);
-        // expect(snapshot.keySignature.mode, -2);
-        // expect(snapshot.keySignature.timePosition, 0.0);
+        var snapshot = snapshots.first;
+        expect(snapshot.timePosition, 0.0);
+        expect(snapshot.keySignature.key, -1);
+        expect(snapshot.keySignature.mode, 'major');
+        expect(snapshot.notes, [snapshot.part.measures[0].notes[0]]);
+
+        // Bar 2
+        expect(snapshots[1].notes, [snapshot.part.measures[1].notes[0]]);
+        expect(snapshots[2].notes, [snapshot.part.measures[1].notes[1]]);
+        expect(snapshots[3].notes, [snapshot.part.measures[1].notes[2]]);
+        expect(snapshots[4].notes, [snapshot.part.measures[1].notes[3]]);
+
+        // Last bar
+        expect(snapshots[snapshots.length - 2].notes.last,
+            snapshot.part.measures.last.notes.last);
       });
     });
   });

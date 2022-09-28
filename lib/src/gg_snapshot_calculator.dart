@@ -59,6 +59,9 @@ class GgSnapshotCalculator {
     return _currentSnapshot;
   }
 
+  // ...........................................................................
+  List<GgSnapshot> get snapshots => _snapshots;
+
   // ######################
   // Private
   // ######################
@@ -87,9 +90,6 @@ class GgSnapshotCalculator {
     for (final noteEvent in _noteEvents) {
       final note = noteEvent.note;
 
-      // Find or create a snapshot for the given time position
-      _moveToSnapshotAtOrBefore(noteEvent.timePosition);
-
       // Add/remove note on/off events to active notes
       if (noteEvent.isNoteOn) {
         activeNotes.add(note);
@@ -100,7 +100,7 @@ class GgSnapshotCalculator {
       // Create a snapshots containing all active notes
       _addOrReplaceSnapshot(_currentSnapshot.copyWith(
         timePosition: noteEvent.timePosition,
-        notes: activeNotes,
+        notes: [...activeNotes],
       ));
     }
   }
@@ -153,25 +153,14 @@ class GgSnapshotCalculator {
 
   // ...........................................................................
   void _addOrReplaceSnapshot(GgSnapshot snapshot) {
+    _moveToSnapshotAtOrBefore(snapshot.timePosition);
+
     // Just replace last snapshot when possible
     if (_replaceLastSnapshot(snapshot)) {
       return;
     }
 
-    for (int i = 0; i < _snapshots.length; i++) {
-      final existingSnapshot = _snapshots[i];
-
-      // Insert snapshot at the right time position
-      if (existingSnapshot.timePosition > snapshot.timePosition) {
-        _snapshots.insert(i, snapshot);
-        return;
-      }
-
-      // Replace existing snapshot at same time position
-      if (existingSnapshot.timePosition == snapshot.timePosition) {
-        _snapshots[i] = snapshot;
-      }
-    }
+    _snapshots.insert(_indexOfCurrentSnapshot + 1, snapshot);
   }
 
   // ...........................................................................
