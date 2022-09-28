@@ -77,12 +77,32 @@ class GgSnapshotCalculator {
 
   // ...........................................................................
   void _init() {
+    _initFirstSnapshot();
+    _initChordSnapshots();
     _initNoteSnapshots();
   }
 
   // ...........................................................................
+  void _jumpToBeginning() {
+    _currentSnapshot = _snapshots.first;
+    _indexOfCurrentSnapshot = 0;
+  }
+
+  // ...........................................................................
+  void _initChordSnapshots() {
+    _jumpToBeginning();
+
+    // Add snapshots for chord symbols
+    for (final measure in part.measures) {
+      for (final chordSymbol in measure.chordSymbols) {}
+    }
+
+    // Write chord symbol to all following snapshots
+  }
+
+  // ...........................................................................
   void _initNoteSnapshots() {
-    _initFirstSnapshot();
+    _jumpToBeginning();
 
     final activeNotes = <Note>[];
 
