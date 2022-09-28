@@ -4,6 +4,7 @@
 // Use of this source code is governed by terms that can be
 // found in the LICENSE file in the root of this package.
 
+import 'package:gg_time_controller/gg_time_controller.dart';
 import 'package:music_xml/music_xml.dart';
 
 import 'gg_example_xml.dart';
@@ -12,8 +13,10 @@ import 'gg_example_xml.dart';
 class GgSongTimeController {
   GgSongTimeController({
     required this.musicXmlDocument,
+    GgTimeController? timeController,
   }) {
     _init();
+    _initTimeController(timeController);
   }
 
   // ...........................................................................
@@ -22,6 +25,17 @@ class GgSongTimeController {
       d();
     }
   }
+
+  // ...........................................................................
+  final MusicXmlDocument musicXmlDocument;
+  late GgTimeController timeController;
+
+  // ...........................................................................
+  void play() {}
+  void pause() {}
+  void stop() {}
+  void jumpToMeasure() {}
+  void animateToMeasure() {}
 
   // ######################
   // Private
@@ -32,13 +46,26 @@ class GgSongTimeController {
     _dispose.add(() {});
   }
 
-  final MusicXmlDocument musicXmlDocument;
+  // ...........................................................................
+  void _initTimeController(GgTimeController? tc) {
+    if (tc != null) {
+      timeController = tc;
+      return;
+    }
+
+    timeController = tc ??
+        GgTimeController(
+          onTimeStamp: (p0) {},
+        );
+
+    _dispose.add(timeController.dispose);
+  }
 }
 
 // #############################################################################
 GgSongTimeController exampleGgSongTimeController({
-  String document = ggExampleXmlString,
+  MusicXmlDocument? document,
 }) =>
     GgSongTimeController(
-      musicXmlDocument: MusicXmlDocument.parse(document),
+      musicXmlDocument: document ?? exampleMusicXmlDocument,
     );
