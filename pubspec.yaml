@@ -12,9 +12,10 @@ dependencies:
   gg_value: ^1.3.6+4
   gg_time_controller: ^1.0.0
   music_xml:
-    git:
-      url: git@github.com:de-men/music_xml.git
-      ref: main
+    path: ../music_xml
+    # git:
+    #   url: git@github.com:de-men/music_xml.git
+    #   ref: main
 
 dev_dependencies:
   lints: ^2.0.0
