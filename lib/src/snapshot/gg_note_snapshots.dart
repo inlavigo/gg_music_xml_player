@@ -8,6 +8,7 @@ import 'package:music_xml/music_xml.dart';
 
 import '../sample_xml/whole_piece/gg_whole_piece_xml.dart';
 import 'gg_snapshot.dart';
+import 'gg_snapshot_parser.dart';
 import 'typedefs.dart';
 
 typedef GgNoteSnapshot = GgSnapshot<List<Note>>;
@@ -31,55 +32,29 @@ class _NoteEvent {
 
 // #############################################################################
 /// Calculates snapshots for a given time and a given part
-class GgNoteSnapshots {
+class GgNoteSnapshots extends GgSnapshotParser<List<Note>> {
   // ...........................................................................
   /// - [part] is the document the snapshots are generated for
   /// - [frameDuration] the time window considered for the snapshot
   GgNoteSnapshots({
-    required this.part,
-    this.frameDuration = const Duration(milliseconds: 20),
+    required super.part,
+    super.frameDuration,
   }) {
     _init();
   }
-
-  // ...........................................................................
-  /// Returns the snapshot for a given time
-  GgNoteSnapshot snapshot({required Seconds timePosition}) {
-    _moveToSnapshotAtOrBefore(timePosition);
-    return _currentSnapshot;
-  }
-
-  // ...........................................................................
-  List<GgNoteSnapshot> get snapshots => _snapshots;
 
   // ######################
   // Private
   // ######################
 
   // ...........................................................................
-  final Part part;
-  final Duration frameDuration;
-  final _snapshots = <GgNoteSnapshot>[];
-
-  // ...........................................................................
-  var _indexOfCurrentSnapshot = 0;
-  late GgNoteSnapshot _currentSnapshot;
-
-  // ...........................................................................
   void _init() {
-    _initFirstSnapshot();
     _initNoteSnapshots();
   }
 
   // ...........................................................................
-  void _jumpToBeginning() {
-    _currentSnapshot = _snapshots.first;
-    _indexOfCurrentSnapshot = 0;
-  }
-
-  // ...........................................................................
   void _initNoteSnapshots() {
-    _jumpToBeginning();
+    jumpToBeginning();
 
     final activeNotes = <Note>[];
 
@@ -95,91 +70,17 @@ class GgNoteSnapshots {
       }
 
       // Create a snapshots containing all active notes
-      _addOrReplaceSnapshot(_currentSnapshot.copyWith(
-        timePosition: noteEvent.timePosition,
+      addOrReplaceSnapshot(
         data: [...activeNotes],
-      ));
+        timePosition: noteEvent.timePosition,
+        measure: currentSnapshot.measure,
+      );
     }
   }
 
   // ...........................................................................
-  void _initFirstSnapshot() {
-    _currentSnapshot = _initialSnapShot;
-    _indexOfCurrentSnapshot = 0;
-    _snapshots.add(_currentSnapshot);
-  }
-
-  // ...........................................................................
-  void _moveToSnapshotAtOrBefore(Seconds timePosition) {
-    if (_currentSnapshot.timePosition == timePosition) {
-      return;
-    }
-
-    final startIndex = _indexOfCurrentSnapshot;
-
-    // Find or snapshot in future
-    var index = startIndex;
-    if (timePosition > _currentSnapshot.timePosition) {
-      while (++index < _snapshots.length) {
-        final snapShot = _snapshots[index];
-        if (snapShot.timePosition > timePosition) {
-          break;
-        }
-        _indexOfCurrentSnapshot = index;
-        _currentSnapshot = snapShot;
-      }
-    }
-
-    // Find snapshot in past
-    else {
-      while (--index >= 0) {
-        final snapShot = _snapshots[index];
-        _indexOfCurrentSnapshot = index;
-        _currentSnapshot = snapShot;
-
-        if (snapShot.timePosition <= timePosition) {
-          break;
-        }
-      }
-    }
-  }
-
-  // ...........................................................................
-  bool _replaceLastSnapshot(GgNoteSnapshot snapshot) {
-    if (snapshot.timePosition == _currentSnapshot.timePosition) {
-      _currentSnapshot = snapshot;
-      _snapshots[_indexOfCurrentSnapshot] = snapshot;
-      return true;
-    }
-
-    return false;
-  }
-
-  // ...........................................................................
-  void _addOrReplaceSnapshot(GgNoteSnapshot snapshot) {
-    _moveToSnapshotAtOrBefore(snapshot.timePosition);
-
-    // Just replace last snapshot when possible
-    if (_replaceLastSnapshot(snapshot)) {
-      return;
-    }
-
-    _snapshots.insert(_indexOfCurrentSnapshot + 1, snapshot);
-  }
-
-  // ...........................................................................
-  GgNoteSnapshot get _initialSnapShot {
-    final first = part.measures.first;
-    Seconds timePosition = 0.0;
-    var result = GgNoteSnapshot(
-      timePosition: timePosition,
-      part: part,
-      measure: first,
-      data: [],
-    );
-
-    return result;
-  }
+  @override
+  List<Note> get seed => [];
 
   // ...........................................................................
   List<_NoteEvent> get _noteEvents {

@@ -73,9 +73,7 @@ void main() {
         void checkTimePosition(GgNoteSnapshot snapshot) {
           expect(
             snapshot,
-            ggNoteSnapshots.snapshot(
-              timePosition: snapshot.timePosition,
-            ),
+            ggNoteSnapshots.snapshot(snapshot.timePosition),
           );
         }
 
@@ -88,7 +86,7 @@ void main() {
         final t0 = snapshots[0].timePosition;
         final t1 = snapshots[1].timePosition;
         final t01 = t0 + (t1 - t0) / 2;
-        expect(ggNoteSnapshots.snapshot(timePosition: t01), snapshots[0]);
+        expect(ggNoteSnapshots.snapshot(t01), snapshots[0]);
       });
     });
   });
