@@ -7,10 +7,10 @@
 import 'package:music_xml/music_xml.dart';
 
 import '../sample_xml/whole_piece/gg_whole_piece_xml.dart';
+import 'gg_snapshot.dart';
 import 'typedefs.dart';
-import 'gg_combined_snapshot.dart';
 
-class GgNoteSnapshot {}
+typedef GgNoteSnapshot = GgSnapshot<List<Note>>;
 
 // #############################################################################
 class _NoteEvent {
@@ -44,13 +44,13 @@ class GgNoteSnapshots {
 
   // ...........................................................................
   /// Returns the snapshot for a given time
-  GgCombinedSnapshot snapshot({required Seconds timePosition}) {
+  GgNoteSnapshot snapshot({required Seconds timePosition}) {
     _moveToSnapshotAtOrBefore(timePosition);
     return _currentSnapshot;
   }
 
   // ...........................................................................
-  List<GgCombinedSnapshot> get snapshots => _snapshots;
+  List<GgNoteSnapshot> get snapshots => _snapshots;
 
   // ######################
   // Private
@@ -59,11 +59,11 @@ class GgNoteSnapshots {
   // ...........................................................................
   final Part part;
   final Duration frameDuration;
-  final _snapshots = <GgCombinedSnapshot>[];
+  final _snapshots = <GgNoteSnapshot>[];
 
   // ...........................................................................
   var _indexOfCurrentSnapshot = 0;
-  late GgCombinedSnapshot _currentSnapshot;
+  late GgNoteSnapshot _currentSnapshot;
 
   // ...........................................................................
   void _init() {
@@ -97,7 +97,7 @@ class GgNoteSnapshots {
       // Create a snapshots containing all active notes
       _addOrReplaceSnapshot(_currentSnapshot.copyWith(
         timePosition: noteEvent.timePosition,
-        notes: [...activeNotes],
+        data: [...activeNotes],
       ));
     }
   }
@@ -145,7 +145,7 @@ class GgNoteSnapshots {
   }
 
   // ...........................................................................
-  bool _replaceLastSnapshot(GgCombinedSnapshot snapshot) {
+  bool _replaceLastSnapshot(GgNoteSnapshot snapshot) {
     if (snapshot.timePosition == _currentSnapshot.timePosition) {
       _currentSnapshot = snapshot;
       _snapshots[_indexOfCurrentSnapshot] = snapshot;
@@ -156,7 +156,7 @@ class GgNoteSnapshots {
   }
 
   // ...........................................................................
-  void _addOrReplaceSnapshot(GgCombinedSnapshot snapshot) {
+  void _addOrReplaceSnapshot(GgNoteSnapshot snapshot) {
     _moveToSnapshotAtOrBefore(snapshot.timePosition);
 
     // Just replace last snapshot when possible
@@ -168,20 +168,14 @@ class GgNoteSnapshots {
   }
 
   // ...........................................................................
-  GgCombinedSnapshot get _initialSnapShot {
+  GgNoteSnapshot get _initialSnapShot {
     final first = part.measures.first;
     Seconds timePosition = 0.0;
-    var result = GgCombinedSnapshot(
+    var result = GgNoteSnapshot(
       timePosition: timePosition,
-      frameDuration: frameDuration,
       part: part,
       measure: first,
-      tempo: first.tempos.isNotEmpty
-          ? first.tempos.first // coverage:ignore-line
-          : Tempo(120, timePosition),
-      keySignature: part.measures.first.keySignature ?? KeySignature(),
-      notes: {},
-      chordSymbol: null,
+      data: [],
     );
 
     return result;

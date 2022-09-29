@@ -21,6 +21,38 @@ class GgSnapshot<T> {
   final Part part;
   final Measure measure;
   final T data;
+
+  // ...........................................................................
+  GgSnapshot<T> copyWith({
+    Seconds? timePosition,
+    Part? part,
+    Measure? measure,
+    T? data,
+  }) {
+    return GgSnapshot(
+      timePosition: timePosition ?? this.timePosition,
+      part: part ?? this.part,
+      measure: measure ?? this.measure,
+      data: data ?? this.data,
+    );
+  }
+
+  // ...........................................................................
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (runtimeType == other.runtimeType &&
+            (other is GgSnapshot) &&
+            (other.timePosition == timePosition) &&
+            (other.part == part) &&
+            (other.measure == measure) &&
+            (other.data == data));
+  }
+
+  // ...........................................................................
+  @override
+  int get hashCode =>
+      timePosition.hashCode ^ part.hashCode ^ measure.hashCode ^ data.hashCode;
 }
 
 // #############################################################################
