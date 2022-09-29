@@ -6,7 +6,7 @@
 
 import 'package:music_xml/music_xml.dart';
 
-import '../example/gg_example_xml.dart';
+import '../sample_xml/whole_piece/gg_whole_piece_xml.dart';
 import 'typedefs.dart';
 import 'gg_snapshot.dart';
 
@@ -16,36 +16,23 @@ class _NoteEvent {
     required this.note,
     required this.part,
     required this.measure,
-    required this.isNoteOn,
+    required this.isBegin,
   });
-
-  _NoteEvent get noteOff {
-    assert(isNoteOn);
-
-    return _NoteEvent(
-      timePosition: timePosition + (note.noteDuration.seconds),
-      note: note,
-      part: part,
-      measure: measure,
-      isNoteOn: false,
-    );
-  }
 
   final Seconds timePosition;
   final Note note;
   final Part part;
   final Measure measure;
-  final bool isNoteOn;
-  bool get isNoteOff => !isNoteOn;
+  final bool isBegin;
 }
 
 // #############################################################################
 /// Calculates snapshots for a given time and a given part
-class GgNoteSnapshotCalculator {
+class GgNoteSnapshots {
   // ...........................................................................
   /// - [part] is the document the snapshots are generated for
   /// - [frameDuration] the time window considered for the snapshot
-  GgNoteSnapshotCalculator({
+  GgNoteSnapshots({
     required this.part,
     this.frameDuration = const Duration(milliseconds: 20),
   }) {
@@ -98,7 +85,7 @@ class GgNoteSnapshotCalculator {
       final note = noteEvent.note;
 
       // Add/remove note on/off events to active notes
-      if (noteEvent.isNoteOn) {
+      if (noteEvent.isBegin) {
         activeNotes.add(note);
       } else {
         activeNotes.remove(note);
@@ -132,6 +119,9 @@ class GgNoteSnapshotCalculator {
     if (timePosition > _currentSnapshot.timePosition) {
       while (++index < _snapshots.length) {
         final snapShot = _snapshots[index];
+        if (snapShot.timePosition > timePosition) {
+          break;
+        }
         _indexOfCurrentSnapshot = index;
         _currentSnapshot = snapShot;
       }
@@ -143,6 +133,10 @@ class GgNoteSnapshotCalculator {
         final snapShot = _snapshots[index];
         _indexOfCurrentSnapshot = index;
         _currentSnapshot = snapShot;
+
+        if (snapShot.timePosition <= timePosition) {
+          break;
+        }
       }
     }
   }
@@ -180,7 +174,7 @@ class GgNoteSnapshotCalculator {
       part: part,
       measure: first,
       tempo: first.tempos.isNotEmpty
-          ? first.tempos.first
+          ? first.tempos.first // coverage:ignore-line
           : Tempo(120, timePosition),
       keySignature: part.measures.first.keySignature ?? KeySignature(),
       notes: {},
@@ -196,39 +190,28 @@ class GgNoteSnapshotCalculator {
 
     for (final measure in part.measures) {
       for (final note in measure.notes) {
-        bool hasTie = note.ties.isNotEmpty;
-        bool hasEndTie = hasTie && note.ties.first.type == StartStop.stop;
-        bool hasStartTie = hasTie && note.ties.last.type == StartStop.start;
+        // Add start event
+        final noteOnEvent = _NoteEvent(
+          timePosition: note.noteDuration.timePosition,
+          note: note,
+          isBegin: true,
+          measure: measure,
+          part: part,
+        );
 
-        bool needsNoteOn = !hasTie || !hasEndTie;
-        bool needsNoteOff = !hasTie || !hasStartTie;
+        noteEvents.add(noteOnEvent);
 
-        // Add note on event
-        if (needsNoteOn) {
-          final noteOnEvent = _NoteEvent(
-            timePosition: note.noteDuration.timePosition,
-            note: note,
-            isNoteOn: true,
-            measure: measure,
-            part: part,
-          );
+        // Add stop event
+        final noteOffEvent = _NoteEvent(
+          timePosition:
+              note.noteDuration.timePosition + note.noteDuration.seconds,
+          note: note,
+          isBegin: false,
+          measure: measure,
+          part: part,
+        );
 
-          noteEvents.add(noteOnEvent);
-        }
-
-        // Needs note off
-        if (needsNoteOff) {
-          final noteOffEvent = _NoteEvent(
-            timePosition:
-                note.noteDuration.timePosition + note.noteDuration.seconds,
-            note: note,
-            isNoteOn: false,
-            measure: measure,
-            part: part,
-          );
-
-          noteEvents.add(noteOffEvent);
-        }
+        noteEvents.add(noteOffEvent);
       }
     }
 
@@ -240,7 +223,6 @@ class GgNoteSnapshotCalculator {
 }
 
 // #############################################################################
-GgNoteSnapshotCalculator exampleGgSnapshotGenerator() =>
-    GgNoteSnapshotCalculator(
-      part: exampleMusicXmlDocument.parts.first,
+GgNoteSnapshots exampleNoteSnapshots() => GgNoteSnapshots(
+      part: wholePieceXmlDoc.parts.first,
     );

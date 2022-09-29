@@ -64,7 +64,7 @@ void main() {
       expect(cw(keySignature: x).hashCode == ggSnapShot.hashCode, isFalse);
 
       // voices
-      x = <String, Iterable<Note>>{};
+      x = <Note>[];
       expect(cw(notes: x).notes, x);
       expect(cw(notes: x) == ggSnapShot, isFalse);
       expect(cw(notes: x).hashCode == ggSnapShot.hashCode, isFalse);

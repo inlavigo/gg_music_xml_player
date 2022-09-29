@@ -1,6 +1,6 @@
 import 'package:music_xml/music_xml.dart';
 
-final exampleMusicXmlDocument = MusicXmlDocument.parse(_exampleXml);
+final wholePieceXmlDoc = MusicXmlDocument.parse(_exampleXml);
 
 const _exampleXml = '''
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
