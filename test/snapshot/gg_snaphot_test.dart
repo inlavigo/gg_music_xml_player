@@ -4,7 +4,7 @@
 // Use of this source code is governed by terms that can be
 // found in the LICENSE file in the root of this package.
 
-import 'package:gg_music_xml_player/src/gg_snapshot.dart';
+import 'package:gg_music_xml_player/src/snapshot/gg_snapshot.dart';
 import 'package:music_xml/music_xml.dart';
 import 'package:test/test.dart';
 

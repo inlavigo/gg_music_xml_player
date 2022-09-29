@@ -6,9 +6,9 @@
 
 import 'package:music_xml/music_xml.dart';
 
-import 'gg_example_xml.dart';
-import 'gg_snapshot.dart';
+import '../example/gg_example_xml.dart';
 import 'typedefs.dart';
+import 'gg_snapshot.dart';
 
 class _NoteEvent {
   const _NoteEvent({
@@ -41,11 +41,11 @@ class _NoteEvent {
 
 // #############################################################################
 /// Calculates snapshots for a given time and a given part
-class GgSnapshotCalculator {
+class GgNoteSnapshotCalculator {
   // ...........................................................................
   /// - [part] is the document the snapshots are generated for
   /// - [frameDuration] the time window considered for the snapshot
-  GgSnapshotCalculator({
+  GgNoteSnapshotCalculator({
     required this.part,
     this.frameDuration = const Duration(milliseconds: 20),
   }) {
@@ -78,7 +78,6 @@ class GgSnapshotCalculator {
   // ...........................................................................
   void _init() {
     _initFirstSnapshot();
-    _initChordSnapshots();
     _initNoteSnapshots();
   }
 
@@ -86,18 +85,6 @@ class GgSnapshotCalculator {
   void _jumpToBeginning() {
     _currentSnapshot = _snapshots.first;
     _indexOfCurrentSnapshot = 0;
-  }
-
-  // ...........................................................................
-  void _initChordSnapshots() {
-    _jumpToBeginning();
-
-    // Add snapshots for chord symbols
-    for (final measure in part.measures) {
-      for (final chordSymbol in measure.chordSymbols) {}
-    }
-
-    // Write chord symbol to all following snapshots
   }
 
   // ...........................................................................
@@ -253,6 +240,7 @@ class GgSnapshotCalculator {
 }
 
 // #############################################################################
-GgSnapshotCalculator exampleGgSnapshotGenerator() => GgSnapshotCalculator(
+GgNoteSnapshotCalculator exampleGgSnapshotGenerator() =>
+    GgNoteSnapshotCalculator(
       part: exampleMusicXmlDocument.parts.first,
     );

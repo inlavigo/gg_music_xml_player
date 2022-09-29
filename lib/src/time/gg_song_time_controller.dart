@@ -7,7 +7,7 @@
 import 'package:gg_time_controller/gg_time_controller.dart';
 import 'package:music_xml/music_xml.dart';
 
-import 'gg_example_xml.dart';
+import '../example/gg_example_xml.dart';
 
 /// Takes music xml  and yields past, current and future notes for a given time.
 class GgSongTimeController {

@@ -5,7 +5,7 @@
 // found in the LICENSE file in the root of this package.
 
 import 'package:fake_async/fake_async.dart';
-import 'package:gg_music_xml_player/src/gg_song_time_controller.dart';
+import 'package:gg_music_xml_player/src/time/gg_song_time_controller.dart';
 import 'package:test/test.dart';
 
 void main() {

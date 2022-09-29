@@ -4,14 +4,13 @@
 // Use of this source code is governed by terms that can be
 // found in the LICENSE file in the root of this package.
 
-import 'dart:developer';
-
-import 'package:gg_music_xml_player/src/gg_snapshot_calculator.dart';
+import 'package:gg_music_xml_player/src/snapshot/gg_note_snapshot_calculator.dart';
 import 'package:test/test.dart';
 import 'package:fake_async/fake_async.dart';
 
 void main() {
-  late GgSnapshotCalculator ggSnapshotGenerator = exampleGgSnapshotGenerator();
+  late GgNoteSnapshotCalculator ggSnapshotGenerator =
+      exampleGgSnapshotGenerator();
 
   group('GgSnapshotGenerator', () {
     // #########################################################################
