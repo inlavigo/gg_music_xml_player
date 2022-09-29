@@ -5,6 +5,7 @@
 // found in the LICENSE file in the root of this package.
 
 import 'package:music_xml/music_xml.dart';
+import 'package:collection/collection.dart';
 
 import '../sample_xml/whole_piece/gg_whole_piece_xml.dart';
 import 'gg_snapshot.dart';
@@ -17,18 +18,36 @@ class GgChordSnapshots extends GgSnapshotParser<ChordSymbol> {
   GgChordSnapshots({
     required super.part,
     super.frameDuration,
-  });
+  }) {
+    _init();
+  }
 
   // ...........................................................................
   @override
-  ChordSymbol get seed => part.measures[1].chordSymbols.isNotEmpty
-      ? part.measures[1].chordSymbols.first
-      : ChordSymbol(); // coverage:ignore-line
+  ChordSymbol get seed =>
+      part.measures
+          .firstWhereOrNull((element) => element.chordSymbols.isNotEmpty)
+          ?.chordSymbols
+          .first ??
+      ChordSymbol(); // coverage:ignore-line
 
   // ######################
   // Private
   // ######################
 
+  // ...........................................................................
+  void _init() {
+    jumpToBeginning();
+    for (final measure in part.measures) {
+      for (final chordSymbol in measure.chordSymbols) {
+        addOrReplaceSnapshot(
+          timePosition: chordSymbol.timePosition,
+          data: chordSymbol,
+          measure: measure,
+        );
+      }
+    }
+  }
 }
 
 // #############################################################################
