@@ -6,7 +6,7 @@
 
 import 'package:gg_music_xml_player/src/sample_xml/tie/tie_xml.dart';
 import 'package:gg_music_xml_player/src/snapshot/gg_note_snapshots.dart';
-import 'package:gg_music_xml_player/src/snapshot/gg_snapshot.dart';
+import 'package:gg_music_xml_player/src/snapshot/gg_combined_snapshot.dart';
 import 'package:test/test.dart';
 import 'package:fake_async/fake_async.dart';
 
@@ -73,7 +73,7 @@ void main() {
         final snapshots = ggNoteSnapshots.snapshots;
 
         // Check exact positions of snapshots
-        void checkTimePosition(GgSnapshot snapshot) {
+        void checkTimePosition(GgCombinedSnapshot snapshot) {
           expect(
             snapshot,
             ggNoteSnapshots.snapshot(

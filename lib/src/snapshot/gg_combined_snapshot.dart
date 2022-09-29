@@ -9,8 +9,8 @@ import 'package:music_xml/music_xml.dart';
 import 'typedefs.dart';
 
 /// Describes the situation in a music XML document at a given point of time
-class GgSnapshot {
-  const GgSnapshot({
+class GgCombinedSnapshot {
+  const GgCombinedSnapshot({
     required this.timePosition,
     required this.frameDuration,
     required this.part,
@@ -21,7 +21,7 @@ class GgSnapshot {
     required this.chordSymbol,
   });
 
-  GgSnapshot copyWith({
+  GgCombinedSnapshot copyWith({
     Seconds? timePosition,
     Duration? frameDuration,
     Part? part,
@@ -31,7 +31,7 @@ class GgSnapshot {
     Iterable<Note>? notes,
     ChordSymbol? chordSymbol,
   }) {
-    return GgSnapshot(
+    return GgCombinedSnapshot(
       timePosition: timePosition ?? this.timePosition,
       frameDuration: frameDuration ?? this.frameDuration,
       part: part ?? this.part,
@@ -48,7 +48,7 @@ class GgSnapshot {
   bool operator ==(Object other) {
     return identical(this, other) ||
         (runtimeType == other.runtimeType &&
-            (other is GgSnapshot) &&
+            (other is GgCombinedSnapshot) &&
             (other.timePosition == timePosition) &&
             (other.frameDuration == frameDuration) &&
             (other.part == part) &&
@@ -83,7 +83,7 @@ class GgSnapshot {
 }
 
 // #############################################################################
-final exampleGgSnapshot = GgSnapshot(
+final exampleGgSnapshot = GgCombinedSnapshot(
   timePosition: 0.0,
   frameDuration: const Duration(milliseconds: 100),
   part: Part('exampleSnapshot0', ScorePart(), []),
