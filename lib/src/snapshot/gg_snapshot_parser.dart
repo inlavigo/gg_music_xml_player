@@ -36,6 +36,39 @@ abstract class GgSnapshotParser<T> {
     return _currentSnapshot;
   }
 
+  // ...........................................................................
+  /// Returns n future snapshots starting at the given time position.
+  Iterable<GgSnapshot<T>> futureSnapshots({
+    required Seconds timePosition,
+    required int count,
+  }) {
+    jumpToOrBefore(timePosition);
+
+    bool hasEnoughSnapshots =
+        _indexOfCurrentSnapshot + count <= _snapshots.length;
+
+    final endIndex =
+        hasEnoughSnapshots ? _indexOfCurrentSnapshot + count : null;
+
+    return _snapshots.sublist(_indexOfCurrentSnapshot, endIndex);
+  }
+
+  // ...........................................................................
+  /// Returns n past snapshots starting at the given time position.
+  Iterable<GgSnapshot<T>> pastSnapshots({
+    required Seconds timePosition,
+    required int count,
+  }) {
+    jumpToOrBefore(timePosition);
+
+    bool hasEnoughSnapshots = _indexOfCurrentSnapshot >= count - 1;
+    final startIndex =
+        hasEnoughSnapshots ? _indexOfCurrentSnapshot - count + 1 : 0;
+    final endIndex = _indexOfCurrentSnapshot;
+
+    return _snapshots.sublist(startIndex, endIndex + 1);
+  }
+
   // ######################
   // Protected
   // ######################
@@ -182,20 +215,24 @@ class ExampleSnapshotParser extends GgSnapshotParser<int> {
   ExampleSnapshotParser({
     required super.part,
   }) {
-    _addSecondSnapshot();
+    _addFurtherSnapshots();
   }
 
   // ...........................................................................
   @override
   int get seed => 0;
 
+  static const int numSnapshots = 20;
+
   // ...........................................................................
-  void _addSecondSnapshot() {
-    addOrReplaceSnapshot(
-      data: 2,
-      timePosition: 2,
-      measure: part.measures.first,
-    );
+  void _addFurtherSnapshots() {
+    for (int i = 0; i < numSnapshots; i++) {
+      addOrReplaceSnapshot(
+        data: i,
+        timePosition: i.toDouble(),
+        measure: part.measures.first,
+      );
+    }
   }
 }
 

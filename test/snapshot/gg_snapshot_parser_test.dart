@@ -21,7 +21,7 @@ void main() {
     group('initialization', () {
       test('should work fine', () {
         expect(parser, isNotNull);
-        expect(parser.snapshots.length, 2);
+        expect(parser.snapshots.length, ExampleSnapshotParser.numSnapshots);
         expect(parser.frameDuration, const Duration(milliseconds: 20));
         expect(parser.snapshot(0.0), parser.snapshots.first);
         expect(parser.part.id, 'P1');
@@ -63,6 +63,77 @@ void main() {
 
         expect(didReplace, isTrue);
         expect(parser.snapshots.last.data, replacedData);
+      });
+    });
+
+    // #########################################################################
+    group('futureSnapshots(timePosition, n)', () {
+      test('should return n snapshots beginning at timePosition', () {
+        const count = 2;
+        final futureSnapshots =
+            parser.futureSnapshots(timePosition: 0.0, count: count);
+
+        expect(futureSnapshots.first, parser.snapshots.first);
+        expect(futureSnapshots.length, count);
+      });
+
+      test('should return available snapshots if count is too big', () {
+        const count = 10000;
+        final futureSnapshots =
+            parser.futureSnapshots(timePosition: 0.0, count: count);
+
+        expect(futureSnapshots.first, parser.snapshots.first);
+        expect(futureSnapshots.length, parser.snapshots.length);
+      });
+
+      test(
+          'should return available snapshots if not enough snapshots are available anymore',
+          () {
+        const count = 5;
+        final futureSnapshots = parser.futureSnapshots(
+          timePosition: parser.snapshots.last.timePosition,
+          count: count,
+        );
+
+        expect(futureSnapshots.first, parser.snapshots.last);
+        expect(futureSnapshots.length, 1);
+      });
+    });
+
+    // #########################################################################
+    group('pastSnapshots(timePosition, n)', () {
+      test('should return n preceeding snapshots beginning at timePosition',
+          () {
+        const count = 5;
+        final referenceSnapshot = parser.snapshots.last;
+        final indexOfLastSnapshot = parser.snapshots.length - 1;
+        final firstSnapshot = parser.snapshots[indexOfLastSnapshot - count + 1];
+
+        final pastSnapshots = parser.pastSnapshots(
+          timePosition: referenceSnapshot.timePosition,
+          count: count,
+        );
+
+        expect(pastSnapshots, hasLength(count));
+        expect(pastSnapshots.first, firstSnapshot);
+        expect(pastSnapshots.last, referenceSnapshot);
+      });
+
+      test(
+          'should return less snapshots if not enough snapshots are available anymore',
+          () {
+        const count = 5;
+        final referenceSnapshot = parser.snapshots.first;
+        final firstSnapshot = referenceSnapshot;
+
+        final pastSnapshots = parser.pastSnapshots(
+          timePosition: referenceSnapshot.timePosition,
+          count: count,
+        );
+
+        expect(pastSnapshots, hasLength(1));
+        expect(pastSnapshots.first, firstSnapshot);
+        expect(pastSnapshots.last, firstSnapshot);
       });
     });
   });
