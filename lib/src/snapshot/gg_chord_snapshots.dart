@@ -36,7 +36,6 @@ class GgChordSnapshots extends GgSnapshotHandler<ChordSymbol> {
 
   // ...........................................................................
   void _init() {
-    jumpToBeginning();
     for (final measure in part.measures) {
       for (final chordSymbol in measure.chordSymbols) {
         addOrReplaceSnapshot(
@@ -46,6 +45,8 @@ class GgChordSnapshots extends GgSnapshotHandler<ChordSymbol> {
         );
       }
     }
+
+    jumpToBeginning();
   }
 }
 

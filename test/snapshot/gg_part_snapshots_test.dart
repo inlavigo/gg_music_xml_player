@@ -8,13 +8,33 @@ import 'package:gg_music_xml_player/src/snapshot/gg_part_snapshots.dart';
 import 'package:test/test.dart';
 
 void main() {
-  final partSnapshot = exampleGgPartSnapshots;
+  final partSnapshots = exampleGgPartSnapshots;
 
   group('GgPartSnapshots', () {
     // #########################################################################
     group('initialization', () {
       test('should work fine', () {
-        expect(partSnapshot, isNotNull);
+        expect(partSnapshots.currentSnapshot.validFrom, 0.0);
+        expect(partSnapshots.currentSnapshot.validTo, 0.5);
+      });
+    });
+
+    // #########################################################################
+    group('snapshot(timePosition)', () {
+      test(
+          'should update currentSnapshot and return it. '
+          'Should return current snapshot if it is still valid.', () {
+        /// Should return the current snapshot as long it is valid
+        final snapshot0a = partSnapshots.snapshot(0.0);
+        final snapshot0b = partSnapshots.snapshot(snapshot0a.validTo - 0.01);
+        expect(snapshot0a.validTo, 0.5);
+
+        expect(snapshot0a, same(snapshot0b));
+
+        /// Should return a new snapshot if a new range has been entered
+        final snapshot1a = partSnapshots.snapshot(snapshot0a.validTo);
+        expect(snapshot1a, isNot(same(snapshot0a)));
+        expect(snapshot1a.validTo, 1.0);
       });
     });
   });

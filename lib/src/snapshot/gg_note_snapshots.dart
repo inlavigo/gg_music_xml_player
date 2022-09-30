@@ -53,8 +53,6 @@ class GgNoteSnapshots extends GgSnapshotHandler<List<Note>> {
 
   // ...........................................................................
   void _initNoteSnapshots() {
-    jumpToBeginning();
-
     final activeNotes = <Note>[];
 
     // Iterate all note events
@@ -75,6 +73,8 @@ class GgNoteSnapshots extends GgSnapshotHandler<List<Note>> {
         measure: currentSnapshot.measure,
       );
     }
+
+    jumpToBeginning();
   }
 
   // ...........................................................................

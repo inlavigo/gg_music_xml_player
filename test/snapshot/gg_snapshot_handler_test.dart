@@ -28,13 +28,16 @@ void main() {
       });
     });
 
-    group('jumpToOrBefore, jumpToBeginning', () {
+    group('currentSnapshot, nextSnapshot, jumpToOrBefore, jumpToBeginning', () {
       test('should set current snapshot to the right one', () {
         expect(handler.currentSnapshot, handler.snapshots.first);
+        expect(handler.nextSnapshot, handler.snapshots[1]);
         handler.jumpToOrBefore(100);
         expect(handler.currentSnapshot, handler.snapshots.last);
+        expect(handler.nextSnapshot, handler.snapshots.last);
         handler.jumpToOrBefore(0.0);
         expect(handler.currentSnapshot, handler.snapshots.first);
+        expect(handler.nextSnapshot, handler.snapshots[1]);
       });
     });
 

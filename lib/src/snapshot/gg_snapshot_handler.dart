@@ -115,7 +115,16 @@ abstract class GgSnapshotHandler<T> {
   }
 
   // ...........................................................................
+  /// Returns the current snapshot
   GgSnapshot<T> get currentSnapshot => _currentSnapshot;
+
+  // ...........................................................................
+  /// Returns the next snapshot.
+  /// Returns the last snapshot when no following snapshot is available
+  GgSnapshot<T> get nextSnapshot =>
+      _indexOfCurrentSnapshot == _snapshots.length - 1
+          ? _currentSnapshot
+          : _snapshots[_indexOfCurrentSnapshot + 1];
 
   // ...........................................................................
   bool tryToReplaceLastSnapshot({
