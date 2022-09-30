@@ -23,6 +23,10 @@ void main() {
         expect(handler, isNotNull);
         expect(handler.snapshots.length, ExampleSnapshotHandler.numSnapshots);
         expect(handler.snapshot(0.0), handler.snapshots.first);
+        expect(handler.snapshot(0.0).validFrom, 0.0);
+        expect(handler.snapshot(0.0).validTo, 1.0);
+        expect(handler.snapshot(1.0).validFrom, 1.0);
+        expect(handler.snapshot(1.0).validTo, 2.0);
         expect(handler.seed, 0);
       });
     });

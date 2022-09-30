@@ -15,12 +15,23 @@ void main() {
     group('initialization', () {
       test('should create a GgPartSnapshots instance for each part', () {
         final parts = s.document.parts;
-        final ps = s.currentSnapshot.data;
-        expect(ps.length, parts.length);
-        expect(ps.first.data.data.id, parts.first.id);
-        expect(ps.last.data.id, parts.last.id);
+        final partSnapshots = s.currentSnapshot.data;
+
+        expect(partSnapshots.length, parts.length);
         expect(s.currentSnapshot.validFrom, 0.0);
         expect(s.currentSnapshot.validTo, 0.5);
+
+        var startTime = 0.0;
+
+        for (int i = 0; i < 10; i++) {
+          final snapshot = s.snapshot(startTime);
+          final nextSnapshot = s.snapshot(snapshot.validTo);
+
+          expect(snapshot.validFrom, startTime);
+          expect(snapshot.validTo, nextSnapshot.validFrom);
+
+          startTime = nextSnapshot.validFrom;
+        }
       });
     });
   });

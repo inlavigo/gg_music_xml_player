@@ -71,7 +71,7 @@ class GgNoteSnapshots extends GgSnapshotHandler<List<Note>> {
       // Create a snapshots containing all active notes
       addOrReplaceSnapshot(
         data: [...activeNotes],
-        timePosition: noteEvent.timePosition,
+        validFrom: noteEvent.timePosition,
       );
     }
 

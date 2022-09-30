@@ -42,7 +42,7 @@ class GgChordSnapshots extends GgSnapshotHandler<ChordSymbol> {
     for (final measure in part.measures) {
       for (final chordSymbol in measure.chordSymbols) {
         addOrReplaceSnapshot(
-          timePosition: chordSymbol.timePosition,
+          validFrom: chordSymbol.timePosition,
           data: chordSymbol,
         );
       }

@@ -8,35 +8,27 @@ import 'package:music_xml/music_xml.dart';
 
 import '../sample_xml/whole_piece/gg_whole_piece_xml.dart';
 import 'gg_chord_snapshots.dart';
-import 'gg_multi_snapshots.dart';
 import 'gg_note_snapshots.dart';
+import 'gg_snapshot.dart';
+import 'gg_snapshot_handler.dart';
 import 'typedefs.dart';
 
-// #############################################################################
-/// Wrap GgPartSnapshot around GgMultiSnapshot
-class GgPartSnapshot extends GgMultiSnapshot {
-  const GgPartSnapshot({
-    required super.data,
-    required super.validFrom,
-    required super.validTo,
-    required this.noteSnapshot,
-    required this.chordSnapshot,
-  });
+typedef GgPartSnapshotData = Iterable<GgSnapshot<dynamic>>;
+typedef GgPartSnapshot = GgSnapshot<GgPartSnapshotData>;
 
-  // ...........................................................................
-  final GgChordSnapshot chordSnapshot;
-  final GgNoteSnapshot noteSnapshot;
+extension GgPartSnapshotDataExtension on GgPartSnapshot {
+  GgChordSnapshot get chordSnapshot => data.elementAt(0) as GgChordSnapshot;
+
+  GgNoteSnapshot get noteSnapshot => data.elementAt(1) as GgNoteSnapshot;
 }
 
 // #############################################################################
 /// Manages all snapshots for a given part
-class GgPartSnapshots extends GgMultiSnapshots<GgMultiSnapshotData> {
+class GgPartSnapshots extends GgSnapshotHandler<GgPartSnapshotData> {
   GgPartSnapshots({
     required this.part,
-  }) : super(snapshotHandlers: [
-          GgChordSnapshots(part: part),
-          GgNoteSnapshots(part: part),
-        ]) {
+  })  : chordSnapshots = GgChordSnapshots(part: part),
+        noteSnapshots = GgNoteSnapshots(part: part) {
     _init();
   }
 
@@ -44,31 +36,58 @@ class GgPartSnapshots extends GgMultiSnapshots<GgMultiSnapshotData> {
   final Part part;
 
   // ...........................................................................
+  late Iterable<GgSnapshotHandler> snapshotHandlers;
+
+  // ...........................................................................
+  final GgChordSnapshots chordSnapshots;
+  final GgNoteSnapshots noteSnapshots;
+
+  // ...........................................................................
   @override
-  GgPartSnapshot get currentSnapshot => _currentSnapshot;
+  GgPartSnapshotData get seed => [
+        chordSnapshots.currentSnapshot,
+        noteSnapshots.currentSnapshot,
+      ];
 
   // ######################
   // Private
   // ######################
 
-  late GgPartSnapshot _currentSnapshot;
-
   // ...........................................................................
   void _init() {
-    _updateCurrentSnapshot(0.0);
+    snapshotHandlers = [chordSnapshots, noteSnapshots];
+    _initSnapshots();
+    jumpToOrBefore(0.0);
   }
 
   // ...........................................................................
-  void _updateCurrentSnapshot(Seconds timePosition) {
-    final multi = super.snapshot(timePosition);
+  void _initSnapshots() {
+    List<Seconds> times = [];
 
-    _currentSnapshot = GgPartSnapshot(
-      data: multi.data,
-      validFrom: multi.validFrom,
-      validTo: multi.validTo,
-      chordSnapshot: multi.data.elementAt(0) as GgChordSnapshot,
-      noteSnapshot: multi.data.elementAt(1) as GgNoteSnapshot,
+    // Collect all times where something changes
+    for (final handler in snapshotHandlers) {
+      for (final snapshot in handler.snapshots) {
+        times.add(snapshot.validFrom);
+      }
+    }
+
+    // Sort times
+    times.sort(
+      (a, b) => a.compareTo(b),
     );
+
+    // For each time create a snapshot
+    for (int i = 0; i < times.length; i++) {
+      final validFrom = times[i];
+      final data = <GgSnapshot>[];
+
+      for (final handler in snapshotHandlers) {
+        handler.jumpToOrBefore(validFrom);
+        data.add(handler.currentSnapshot);
+      }
+
+      addOrReplaceSnapshot(data: data, validFrom: validFrom);
+    }
   }
 }
 

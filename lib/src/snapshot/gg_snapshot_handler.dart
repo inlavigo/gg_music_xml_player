@@ -66,14 +66,13 @@ abstract class GgSnapshotHandler<T> {
   // ...........................................................................
   void jumpToBeginning() {
     _currentSnapshot = snapshots.first;
-    _nextSnapshot = snapshots.length > 1 ? snapshots[1] : _currentSnapshot;
     _indexOfCurrentSnapshot = 0;
   }
 
   // ...........................................................................
   void jumpToOrBefore(Seconds timePosition) {
     if (timePosition >= _currentSnapshot.validFrom &&
-        timePosition < _nextSnapshot.validFrom) {
+        timePosition < _currentSnapshot.validTo) {
       return;
     }
 
@@ -139,27 +138,26 @@ abstract class GgSnapshotHandler<T> {
   // ...........................................................................
   void addOrReplaceSnapshot({
     required T data,
-    required Seconds timePosition,
+    required Seconds validFrom,
   }) {
-    final snapshot = GgSnapshot<T>(
-      data: data,
-      validFrom: timePosition,
-      validTo: timePosition,
-    );
-
-    jumpToOrBefore(snapshot.validFrom);
+    jumpToOrBefore(validFrom);
 
     // Just replace last snapshot when possible
     if (tryToReplaceLastSnapshot(
       data: data,
-      timePosition: timePosition,
+      timePosition: validFrom,
     )) {
       return;
     }
 
+    // Update validTo at previousSnapshot
+    _snapshots[_indexOfCurrentSnapshot] =
+        _currentSnapshot.copyWith(validTo: validFrom);
+
+    // Insert a new snapshot
     final newSnapshot = createSnapshot(
       data: data,
-      timePosition: timePosition,
+      timePosition: validFrom,
     );
 
     _snapshots.insert(_indexOfCurrentSnapshot + 1, newSnapshot);
@@ -184,7 +182,6 @@ abstract class GgSnapshotHandler<T> {
   final _snapshots = <GgSnapshot<T>>[];
   var _indexOfCurrentSnapshot = 0;
   late GgSnapshot<T> _currentSnapshot;
-  late GgSnapshot<T> _nextSnapshot;
 
   // ...........................................................................
   void _init() {
@@ -197,8 +194,6 @@ abstract class GgSnapshotHandler<T> {
       data: seed,
       timePosition: 0.0,
     );
-
-    _nextSnapshot = _currentSnapshot;
 
     _indexOfCurrentSnapshot = 0;
     _snapshots.add(_currentSnapshot);
@@ -222,7 +217,7 @@ class ExampleSnapshotHandler extends GgSnapshotHandler<int> {
     for (int i = 0; i < numSnapshots; i++) {
       addOrReplaceSnapshot(
         data: i,
-        timePosition: i.toDouble(),
+        validFrom: i.toDouble(),
       );
     }
   }
