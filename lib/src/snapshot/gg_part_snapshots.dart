@@ -10,35 +10,24 @@ import '../sample_xml/whole_piece/gg_whole_piece_xml.dart';
 import 'gg_chord_snapshots.dart';
 import 'gg_multi_snapshots.dart';
 import 'gg_note_snapshots.dart';
-import 'gg_snapshot.dart';
 import 'typedefs.dart';
 
 // #############################################################################
 /// Wrap GgPartSnapshot around GgMultiSnapshot
-class GgPartSnapshot implements GgMultiSnapshot {
+class GgPartSnapshot extends GgMultiSnapshot {
   const GgPartSnapshot({
-    required this.snapshots,
-    required this.validFrom,
-    required this.validTo,
-    required this.part,
+    required super.data,
+    required super.validFrom,
+    required super.validTo,
+    required super.part,
+    required super.measure,
     required this.noteSnapshot,
     required this.chordSnapshot,
   });
 
   // ...........................................................................
-  @override
-  final Seconds validFrom;
-
-  @override
-  final Seconds validTo;
-
-  @override
-  final List<GgSnapshot> snapshots;
-
-  // ...........................................................................
   final GgChordSnapshot chordSnapshot;
   final GgNoteSnapshot noteSnapshot;
-  final Part part;
 }
 
 // #############################################################################
@@ -88,12 +77,13 @@ class GgPartSnapshots extends GgMultiSnapshots {
     final multi = super.snapshot(timePosition);
 
     _currentSnapshot = GgPartSnapshot(
-      snapshots: multi.snapshots,
+      data: multi.snapshots,
       validFrom: multi.validFrom,
       validTo: multi.validTo,
       chordSnapshot: multi.snapshots[0] as GgChordSnapshot,
       noteSnapshot: multi.snapshots[1] as GgNoteSnapshot,
       part: part,
+      measure: leadingChildSnapshot.measure,
     );
   }
 }

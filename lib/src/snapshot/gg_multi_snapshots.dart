@@ -4,7 +4,7 @@
 // Use of this source code is governed by terms that can be
 // found in the LICENSE file in the root of this package.
 
-import 'dart:math';
+import 'package:music_xml/music_xml.dart';
 
 import '../sample_xml/whole_piece/gg_whole_piece_xml.dart';
 import 'gg_chord_snapshots.dart';
@@ -15,16 +15,34 @@ import 'typedefs.dart';
 
 // #############################################################################
 /// Data of a GgMultiSnapshot
-class GgMultiSnapshot {
+class GgMultiSnapshot extends GgSnapshot<Iterable<GgSnapshot>> {
   const GgMultiSnapshot({
-    required this.validFrom,
-    required this.validTo,
-    required this.snapshots,
+    required super.validFrom,
+    required super.validTo,
+    required super.data,
+    required super.measure,
+    required super.part,
   });
 
-  final Seconds validFrom;
-  final Seconds validTo;
-  final List<GgSnapshot> snapshots;
+  List<GgSnapshot> get snapshots => data as List<GgSnapshot>;
+
+  // ...........................................................................
+  @override
+  GgMultiSnapshot copyWith({
+    Seconds? validFrom,
+    Seconds? validTo,
+    Part? part,
+    Measure? measure,
+    Iterable<GgSnapshot>? data,
+  }) {
+    return GgMultiSnapshot(
+      validFrom: validFrom ?? this.validFrom,
+      validTo: validTo ?? this.validTo,
+      part: part ?? this.part,
+      measure: measure ?? this.measure,
+      data: data ?? this.data,
+    );
+  }
 }
 
 // #############################################################################
@@ -52,12 +70,14 @@ class GgMultiSnapshots {
 
   // ...........................................................................
   GgMultiSnapshot get currentSnapshot => _currentSnapshot;
+  GgSnapshot get leadingChildSnapshot => _leadingChildSnapshot;
 
   // ######################
   // Private
   // ######################
 
   late GgMultiSnapshot _currentSnapshot;
+  late GgSnapshot _leadingChildSnapshot;
 
   // ...........................................................................
   void _init() {
@@ -72,15 +92,27 @@ class GgMultiSnapshots {
 
     for (final handler in snapshotHandlers) {
       handler.jumpToOrBefore(timePosition);
-      validFrom = max(handler.currentSnapshot.validFrom, validFrom);
-      validTo = min(handler.nextSnapshot.validFrom, validTo);
+      final current = handler.currentSnapshot;
+      final next = handler.nextSnapshot;
+
+      if (current.validFrom >= validFrom) {
+        _leadingChildSnapshot = current;
+        validFrom = current.validFrom;
+      }
+
+      if (validTo > next.validFrom) {
+        validTo = next.validTo;
+      }
+
       snapshots.add(handler.currentSnapshot);
     }
 
     _currentSnapshot = GgMultiSnapshot(
       validFrom: validFrom,
       validTo: validTo,
-      snapshots: snapshots,
+      data: snapshots,
+      measure: _leadingChildSnapshot.measure,
+      part: _leadingChildSnapshot.part,
     );
   }
 }
