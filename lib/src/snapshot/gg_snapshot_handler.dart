@@ -130,13 +130,11 @@ abstract class GgSnapshotHandler<T> {
   bool tryToReplaceLastSnapshot({
     required T data,
     required Seconds timePosition,
-    required Measure measure,
   }) {
     if (timePosition == _currentSnapshot.validFrom) {
       _currentSnapshot = createSnapshot(
         data: data,
         timePosition: timePosition,
-        measure: measure,
       );
 
       _snapshots[_indexOfCurrentSnapshot] = _currentSnapshot;
@@ -150,12 +148,9 @@ abstract class GgSnapshotHandler<T> {
   void addOrReplaceSnapshot({
     required T data,
     required Seconds timePosition,
-    required Measure measure,
   }) {
     final snapshot = GgSnapshot<T>(
       data: data,
-      measure: measure,
-      part: part,
       validFrom: timePosition,
       validTo: timePosition,
     );
@@ -166,7 +161,6 @@ abstract class GgSnapshotHandler<T> {
     if (tryToReplaceLastSnapshot(
       data: data,
       timePosition: timePosition,
-      measure: measure,
     )) {
       return;
     }
@@ -174,7 +168,6 @@ abstract class GgSnapshotHandler<T> {
     final newSnapshot = createSnapshot(
       data: data,
       timePosition: timePosition,
-      measure: measure,
     );
 
     _snapshots.insert(_indexOfCurrentSnapshot + 1, newSnapshot);
@@ -184,14 +177,11 @@ abstract class GgSnapshotHandler<T> {
   GgSnapshot<T> createSnapshot({
     required T data,
     required Seconds timePosition,
-    required Measure measure,
   }) =>
       GgSnapshot<T>(
         validFrom: timePosition,
         validTo: timePosition,
         data: data,
-        part: part,
-        measure: measure,
       );
 
   // ######################
@@ -214,7 +204,6 @@ abstract class GgSnapshotHandler<T> {
     _currentSnapshot = createSnapshot(
       data: seed,
       timePosition: 0.0,
-      measure: part.measures.first,
     );
 
     _nextSnapshot = _currentSnapshot;
@@ -244,7 +233,6 @@ class ExampleSnapshotHandler extends GgSnapshotHandler<int> {
       addOrReplaceSnapshot(
         data: i,
         timePosition: i.toDouble(),
-        measure: part.measures.first,
       );
     }
   }

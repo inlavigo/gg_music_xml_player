@@ -10,7 +10,7 @@ import 'package:test/test.dart';
 import 'package:fake_async/fake_async.dart';
 
 void main() {
-  late GgNoteSnapshots ggNoteSnapshots = exampleNoteSnapshots();
+  late GgNoteSnapshots ggns = exampleNoteSnapshots();
 
   group('GgSnapshotGenerator', () {
     // #########################################################################
@@ -18,22 +18,22 @@ void main() {
       test('should work fine', () {
         fakeAsync((fake) {
           // Get all snapshots
-          final snapshots = ggNoteSnapshots.snapshots;
+          final snapshots = ggns.snapshots;
 
           // Check key signature
           var snapshot = snapshots.first;
           expect(snapshot.validFrom, 0.0);
-          expect(snapshot.data, [snapshot.part.measures[0].notes[0]]);
+          expect(snapshot.data, [ggns.part.measures[0].notes[0]]);
 
           // Bar 2
-          expect(snapshots[1].data, [snapshot.part.measures[1].notes[0]]);
-          expect(snapshots[2].data, [snapshot.part.measures[1].notes[1]]);
-          expect(snapshots[3].data, [snapshot.part.measures[1].notes[2]]);
-          expect(snapshots[4].data, [snapshot.part.measures[1].notes[3]]);
+          expect(snapshots[1].data, [ggns.part.measures[1].notes[0]]);
+          expect(snapshots[2].data, [ggns.part.measures[1].notes[1]]);
+          expect(snapshots[3].data, [ggns.part.measures[1].notes[2]]);
+          expect(snapshots[4].data, [ggns.part.measures[1].notes[3]]);
 
           // Last bar
           expect(snapshots[snapshots.length - 2].data.last,
-              snapshot.part.measures.last.notes.last);
+              ggns.part.measures.last.notes.last);
         });
       });
 
@@ -67,13 +67,13 @@ void main() {
     // #########################################################################
     group('snapshot(time)', () {
       test('should return the right snapshot for the given time', () {
-        final snapshots = ggNoteSnapshots.snapshots;
+        final snapshots = ggns.snapshots;
 
         // Check exact positions of snapshots
         void checkTimePosition(GgNoteSnapshot snapshot) {
           expect(
             snapshot,
-            ggNoteSnapshots.snapshot(snapshot.validFrom),
+            ggns.snapshot(snapshot.validFrom),
           );
         }
 
@@ -86,7 +86,7 @@ void main() {
         final t0 = snapshots[0].validFrom;
         final t1 = snapshots[1].validFrom;
         final t01 = t0 + (t1 - t0) / 2;
-        expect(ggNoteSnapshots.snapshot(t01), snapshots[0]);
+        expect(ggns.snapshot(t01), snapshots[0]);
       });
     });
   });

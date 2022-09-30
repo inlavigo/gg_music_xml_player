@@ -20,8 +20,6 @@ class GgMultiSnapshot extends GgSnapshot<Iterable<GgSnapshot>> {
     required super.validFrom,
     required super.validTo,
     required super.data,
-    required super.measure,
-    required super.part,
   });
 
   List<GgSnapshot> get snapshots => data as List<GgSnapshot>;
@@ -38,8 +36,6 @@ class GgMultiSnapshot extends GgSnapshot<Iterable<GgSnapshot>> {
     return GgMultiSnapshot(
       validFrom: validFrom ?? this.validFrom,
       validTo: validTo ?? this.validTo,
-      part: part ?? this.part,
-      measure: measure ?? this.measure,
       data: data ?? this.data,
     );
   }
@@ -111,8 +107,6 @@ class GgMultiSnapshots {
       validFrom: validFrom,
       validTo: validTo,
       data: snapshots,
-      measure: _leadingChildSnapshot.measure,
-      part: _leadingChildSnapshot.part,
     );
   }
 }

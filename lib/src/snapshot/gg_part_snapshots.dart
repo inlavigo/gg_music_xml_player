@@ -19,8 +19,6 @@ class GgPartSnapshot extends GgMultiSnapshot {
     required super.data,
     required super.validFrom,
     required super.validTo,
-    required super.part,
-    required super.measure,
     required this.noteSnapshot,
     required this.chordSnapshot,
   });
@@ -82,8 +80,6 @@ class GgPartSnapshots extends GgMultiSnapshots {
       validTo: multi.validTo,
       chordSnapshot: multi.snapshots[0] as GgChordSnapshot,
       noteSnapshot: multi.snapshots[1] as GgNoteSnapshot,
-      part: part,
-      measure: leadingChildSnapshot.measure,
     );
   }
 }

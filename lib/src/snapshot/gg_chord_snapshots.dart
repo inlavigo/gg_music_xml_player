@@ -41,7 +41,6 @@ class GgChordSnapshots extends GgSnapshotHandler<ChordSymbol> {
         addOrReplaceSnapshot(
           timePosition: chordSymbol.timePosition,
           data: chordSymbol,
-          measure: measure,
         );
       }
     }

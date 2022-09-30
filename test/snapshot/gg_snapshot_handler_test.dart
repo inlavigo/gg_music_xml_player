@@ -50,16 +50,15 @@ void main() {
 
         // Time does not match -> dont' replace
         var didReplace = handler.tryToReplaceLastSnapshot(
-            data: replacedData,
-            measure: handler.part.measures.last,
-            timePosition: 123890);
+          data: replacedData,
+          timePosition: 123890,
+        );
 
         expect(didReplace, isFalse);
 
         // Time does match -> replace
         didReplace = handler.tryToReplaceLastSnapshot(
           data: 50,
-          measure: handler.part.measures.last,
           timePosition: handler.snapshots.last.validFrom,
         );
 

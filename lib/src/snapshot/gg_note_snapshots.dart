@@ -70,7 +70,6 @@ class GgNoteSnapshots extends GgSnapshotHandler<List<Note>> {
       addOrReplaceSnapshot(
         data: [...activeNotes],
         timePosition: noteEvent.timePosition,
-        measure: currentSnapshot.measure,
       );
     }
 

@@ -13,15 +13,11 @@ class GgSnapshot<T> {
   const GgSnapshot({
     required this.validFrom,
     required this.validTo,
-    required this.part,
-    required this.measure,
     required this.data,
   });
 
   final Seconds validFrom;
   final Seconds validTo;
-  final Part part;
-  final Measure measure;
   final T data;
 
   // ...........................................................................
@@ -35,8 +31,6 @@ class GgSnapshot<T> {
     return GgSnapshot(
       validFrom: validFrom ?? this.validFrom,
       validTo: validTo ?? this.validTo,
-      part: part ?? this.part,
-      measure: measure ?? this.measure,
       data: data ?? this.data,
     );
   }
@@ -49,26 +43,17 @@ class GgSnapshot<T> {
             (other is GgSnapshot) &&
             (other.validFrom == validFrom) &&
             (other.validTo == validTo) &&
-            (other.part == part) &&
-            (other.measure == measure) &&
             (other.data == data));
   }
 
   // ...........................................................................
   @override
-  int get hashCode =>
-      validFrom.hashCode ^
-      validTo.hashCode ^
-      part.hashCode ^
-      measure.hashCode ^
-      data.hashCode;
+  int get hashCode => validFrom.hashCode ^ validTo.hashCode ^ data.hashCode;
 }
 
 // #############################################################################
-final exampleGgSnapshot = GgSnapshot<int>(
+const exampleGgSnapshot = GgSnapshot<int>(
   validFrom: 0.0,
   validTo: 0.0,
-  part: Part('exampleSnapshot0', ScorePart(), []),
-  measure: Measure(number: 0),
   data: 0,
 );
