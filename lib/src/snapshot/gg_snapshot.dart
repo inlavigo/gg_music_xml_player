@@ -20,6 +20,8 @@ class GgSnapshot<T> {
   final Seconds validTo;
   final T data;
 
+  Seconds get duration => validTo - validFrom;
+
   // ...........................................................................
   GgSnapshot<T> copyWith({
     Seconds? validFrom,
