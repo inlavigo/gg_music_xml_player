@@ -12,12 +12,12 @@ import 'gg_snapshot_handler.dart';
 import 'typedefs.dart';
 
 // #############################################################################
-
-typedef GgMultiSnapshot<T> = GgSnapshot<Iterable<GgSnapshot<T>>>;
+typedef GgMultiSnapshotData<T> = Iterable<GgSnapshot<T>>;
+typedef GgMultiSnapshot<T> = GgSnapshot<GgMultiSnapshotData<T>>;
 
 // #############################################################################
 /// Manages all snapshots for a given part
-class GgMultiSnapshots<T> extends GgSnapshotHandler<Iterable<GgSnapshot<T>>> {
+class GgMultiSnapshots<T> extends GgSnapshotHandler<GgMultiSnapshotData<T>> {
   GgMultiSnapshots({
     required this.snapshotHandlers,
   }) {
@@ -25,17 +25,13 @@ class GgMultiSnapshots<T> extends GgSnapshotHandler<Iterable<GgSnapshot<T>>> {
   }
 
   // ...........................................................................
-  final Iterable<GgSnapshotHandler<T>> snapshotHandlers;
+  final Iterable<GgSnapshotHandler> snapshotHandlers;
 
   // ...........................................................................
   /// Returns the snapshot for a given position
   @override
   GgMultiSnapshot<T> snapshot(Seconds timePosition) {
-    if (timePosition < _currentSnapshot.validFrom ||
-        timePosition >= _currentSnapshot.validTo) {
-      _jumpToOrBefore(timePosition);
-    }
-
+    _jumpToOrBefore(timePosition);
     return _currentSnapshot;
   }
 
@@ -50,7 +46,11 @@ class GgMultiSnapshots<T> extends GgSnapshotHandler<Iterable<GgSnapshot<T>>> {
   // Private
   // ######################
 
-  late GgMultiSnapshot<T> _currentSnapshot;
+  GgMultiSnapshot<T> _currentSnapshot = const GgMultiSnapshot(
+    validFrom: 0,
+    validTo: 0,
+    data: [],
+  );
 
   // ...........................................................................
   void _init() {
@@ -59,6 +59,11 @@ class GgMultiSnapshots<T> extends GgSnapshotHandler<Iterable<GgSnapshot<T>>> {
 
   // ...........................................................................
   void _jumpToOrBefore(Seconds timePosition) {
+    if (timePosition >= _currentSnapshot.validFrom &&
+        timePosition < _currentSnapshot.validTo) {
+      return;
+    }
+
     var validFrom = 0.0;
     var validTo = double.maxFinite;
     final snapshots = <GgSnapshot<T>>[];
@@ -76,7 +81,7 @@ class GgMultiSnapshots<T> extends GgSnapshotHandler<Iterable<GgSnapshot<T>>> {
         validTo = next.validFrom;
       }
 
-      snapshots.add(handler.currentSnapshot);
+      snapshots.add(handler.currentSnapshot as GgSnapshot<T>);
     }
 
     _currentSnapshot = GgMultiSnapshot<T>(

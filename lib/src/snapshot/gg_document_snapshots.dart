@@ -14,7 +14,7 @@ import 'gg_part_snapshots.dart';
 typedef GgDocumentSnapshot = GgMultiSnapshot<GgPartSnapshot>;
 
 // #############################################################################
-class GgDocumentSnapshots extends GgMultiSnapshots<dynamic> {
+class GgDocumentSnapshots extends GgMultiSnapshots<GgPartSnapshot> {
   GgDocumentSnapshots({
     required this.document,
   }) : super(
@@ -26,23 +26,14 @@ class GgDocumentSnapshots extends GgMultiSnapshots<dynamic> {
   }
 
   // ...........................................................................
-
-  // ...........................................................................
   final MusicXmlDocument document;
-  Iterable<GgPartSnapshots> get partSnapshots => _partSnapshots.values;
 
   // ######################
   // Private
   // ######################
 
-  final _partSnapshots = <String, GgPartSnapshots>{};
-
   // ...........................................................................
-  void _init() {
-    for (var part in document.parts) {
-      _partSnapshots[part.id] = GgPartSnapshots(part: part);
-    }
-  }
+  void _init() {}
 }
 
 // #############################################################################

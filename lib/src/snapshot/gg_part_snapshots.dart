@@ -30,7 +30,7 @@ class GgPartSnapshot extends GgMultiSnapshot {
 
 // #############################################################################
 /// Manages all snapshots for a given part
-class GgPartSnapshots extends GgMultiSnapshots<dynamic> {
+class GgPartSnapshots extends GgMultiSnapshots<GgMultiSnapshotData> {
   GgPartSnapshots({
     required this.part,
   }) : super(snapshotHandlers: [
@@ -46,18 +46,6 @@ class GgPartSnapshots extends GgMultiSnapshots<dynamic> {
   // ...........................................................................
   @override
   GgPartSnapshot get currentSnapshot => _currentSnapshot;
-
-  // ...........................................................................
-  /// Returns the snapshot for a given position
-  @override
-  GgPartSnapshot snapshot(Seconds timePosition) {
-    if (timePosition < _currentSnapshot.validFrom ||
-        timePosition >= _currentSnapshot.validTo) {
-      _updateCurrentSnapshot(timePosition);
-    }
-
-    return _currentSnapshot;
-  }
 
   // ######################
   // Private
