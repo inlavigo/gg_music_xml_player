@@ -60,7 +60,7 @@ void main() {
         didReplace = handler.tryToReplaceLastSnapshot(
           data: 50,
           measure: handler.part.measures.last,
-          timePosition: handler.snapshots.last.timePosition,
+          timePosition: handler.snapshots.last.validFrom,
         );
 
         expect(didReplace, isTrue);
@@ -93,7 +93,7 @@ void main() {
           () {
         const count = 5;
         final futureSnapshots = handler.futureSnapshots(
-          timePosition: handler.snapshots.last.timePosition,
+          timePosition: handler.snapshots.last.validFrom,
           count: count,
         );
 
@@ -113,7 +113,7 @@ void main() {
             handler.snapshots[indexOfLastSnapshot - count + 1];
 
         final pastSnapshots = handler.pastSnapshots(
-          timePosition: referenceSnapshot.timePosition,
+          timePosition: referenceSnapshot.validFrom,
           count: count,
         );
 
@@ -130,7 +130,7 @@ void main() {
         final firstSnapshot = referenceSnapshot;
 
         final pastSnapshots = handler.pastSnapshots(
-          timePosition: referenceSnapshot.timePosition,
+          timePosition: referenceSnapshot.validFrom,
           count: count,
         );
 

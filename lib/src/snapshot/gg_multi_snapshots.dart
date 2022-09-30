@@ -72,8 +72,8 @@ class GgMultiSnapshots {
 
     for (final handler in snapshotHandlers) {
       handler.jumpToOrBefore(timePosition);
-      validFrom = max(handler.currentSnapshot.timePosition, validFrom);
-      validTo = min(handler.nextSnapshot.timePosition, validTo);
+      validFrom = max(handler.currentSnapshot.validFrom, validFrom);
+      validTo = min(handler.nextSnapshot.validFrom, validTo);
       snapshots.add(handler.currentSnapshot);
     }
 

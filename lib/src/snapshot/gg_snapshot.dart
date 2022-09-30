@@ -11,26 +11,30 @@ import 'typedefs.dart';
 /// Defines a snapshot of music xml data for a given time position
 class GgSnapshot<T> {
   const GgSnapshot({
-    required this.timePosition,
+    required this.validFrom,
+    required this.validTo,
     required this.part,
     required this.measure,
     required this.data,
   });
 
-  final Seconds timePosition;
+  final Seconds validFrom;
+  final Seconds validTo;
   final Part part;
   final Measure measure;
   final T data;
 
   // ...........................................................................
   GgSnapshot<T> copyWith({
-    Seconds? timePosition,
+    Seconds? validFrom,
+    Seconds? validTo,
     Part? part,
     Measure? measure,
     T? data,
   }) {
     return GgSnapshot(
-      timePosition: timePosition ?? this.timePosition,
+      validFrom: validFrom ?? this.validFrom,
+      validTo: validTo ?? this.validTo,
       part: part ?? this.part,
       measure: measure ?? this.measure,
       data: data ?? this.data,
@@ -43,7 +47,8 @@ class GgSnapshot<T> {
     return identical(this, other) ||
         (runtimeType == other.runtimeType &&
             (other is GgSnapshot) &&
-            (other.timePosition == timePosition) &&
+            (other.validFrom == validFrom) &&
+            (other.validTo == validTo) &&
             (other.part == part) &&
             (other.measure == measure) &&
             (other.data == data));
@@ -52,12 +57,17 @@ class GgSnapshot<T> {
   // ...........................................................................
   @override
   int get hashCode =>
-      timePosition.hashCode ^ part.hashCode ^ measure.hashCode ^ data.hashCode;
+      validFrom.hashCode ^
+      validTo.hashCode ^
+      part.hashCode ^
+      measure.hashCode ^
+      data.hashCode;
 }
 
 // #############################################################################
 final exampleGgSnapshot = GgSnapshot<int>(
-  timePosition: 0.0,
+  validFrom: 0.0,
+  validTo: 0.0,
   part: Part('exampleSnapshot0', ScorePart(), []),
   measure: Measure(number: 0),
   data: 0,

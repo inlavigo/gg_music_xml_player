@@ -27,10 +27,10 @@ void main() {
         expect(cw() == ggSnapshot, isTrue);
         expect(cw().hashCode == ggSnapshot.hashCode, isTrue);
 
-        // timePosition
-        expect(cw(timePosition: 1.0).timePosition, 1.0);
-        expect(cw(timePosition: 1.0) == ggSnapshot, isFalse);
-        expect(cw(timePosition: 1.0).hashCode == ggSnapshot.hashCode, isFalse);
+        // validFrom
+        expect(cw(validFrom: 1.0).validFrom, 1.0);
+        expect(cw(validFrom: 1.0) == ggSnapshot, isFalse);
+        expect(cw(validFrom: 1.0).hashCode == ggSnapshot.hashCode, isFalse);
 
         // part
         dynamic x = Part('id', ScorePart(), []);

@@ -22,7 +22,7 @@ void main() {
 
           // Check key signature
           var snapshot = snapshots.first;
-          expect(snapshot.timePosition, 0.0);
+          expect(snapshot.validFrom, 0.0);
           expect(snapshot.data, [snapshot.part.measures[0].notes[0]]);
 
           // Bar 2
@@ -73,7 +73,7 @@ void main() {
         void checkTimePosition(GgNoteSnapshot snapshot) {
           expect(
             snapshot,
-            ggNoteSnapshots.snapshot(snapshot.timePosition),
+            ggNoteSnapshots.snapshot(snapshot.validFrom),
           );
         }
 
@@ -83,8 +83,8 @@ void main() {
         checkTimePosition(snapshots.last);
 
         // Check positions inbetween snapshots
-        final t0 = snapshots[0].timePosition;
-        final t1 = snapshots[1].timePosition;
+        final t0 = snapshots[0].validFrom;
+        final t1 = snapshots[1].validFrom;
         final t01 = t0 + (t1 - t0) / 2;
         expect(ggNoteSnapshots.snapshot(t01), snapshots[0]);
       });

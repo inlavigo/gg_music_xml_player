@@ -80,8 +80,8 @@ abstract class GgSnapshotHandler<T> {
 
   // ...........................................................................
   void jumpToOrBefore(Seconds timePosition) {
-    if (timePosition >= _currentSnapshot.timePosition &&
-        timePosition < _nextSnapshot.timePosition) {
+    if (timePosition >= _currentSnapshot.validFrom &&
+        timePosition < _nextSnapshot.validFrom) {
       return;
     }
 
@@ -89,10 +89,10 @@ abstract class GgSnapshotHandler<T> {
 
     // Find or snapshot in future
     var index = startIndex;
-    if (timePosition > _currentSnapshot.timePosition) {
+    if (timePosition > _currentSnapshot.validFrom) {
       while (++index < snapshots.length) {
         final snapShot = snapshots[index];
-        if (snapShot.timePosition > timePosition) {
+        if (snapShot.validFrom > timePosition) {
           break;
         }
         _indexOfCurrentSnapshot = index;
@@ -107,7 +107,7 @@ abstract class GgSnapshotHandler<T> {
         _indexOfCurrentSnapshot = index;
         _currentSnapshot = snapShot;
 
-        if (snapShot.timePosition <= timePosition) {
+        if (snapShot.validFrom <= timePosition) {
           break;
         }
       }
@@ -132,7 +132,7 @@ abstract class GgSnapshotHandler<T> {
     required Seconds timePosition,
     required Measure measure,
   }) {
-    if (timePosition == _currentSnapshot.timePosition) {
+    if (timePosition == _currentSnapshot.validFrom) {
       _currentSnapshot = createSnapshot(
         data: data,
         timePosition: timePosition,
@@ -156,10 +156,11 @@ abstract class GgSnapshotHandler<T> {
       data: data,
       measure: measure,
       part: part,
-      timePosition: timePosition,
+      validFrom: timePosition,
+      validTo: timePosition,
     );
 
-    jumpToOrBefore(snapshot.timePosition);
+    jumpToOrBefore(snapshot.validFrom);
 
     // Just replace last snapshot when possible
     if (tryToReplaceLastSnapshot(
@@ -186,7 +187,8 @@ abstract class GgSnapshotHandler<T> {
     required Measure measure,
   }) =>
       GgSnapshot<T>(
-        timePosition: timePosition,
+        validFrom: timePosition,
+        validTo: timePosition,
         data: data,
         part: part,
         measure: measure,

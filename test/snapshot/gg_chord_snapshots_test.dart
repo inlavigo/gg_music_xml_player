@@ -21,7 +21,7 @@ void main() {
 
         final snapshot0 = ggChordSnapshots.snapshots[0];
         expect(snapshot0.data.root, 'F');
-        expect(snapshot0.timePosition, 0.0);
+        expect(snapshot0.validFrom, 0.0);
 
         Seconds bar(int bar) {
           return kickOff + bar * 2;
@@ -29,19 +29,19 @@ void main() {
 
         final snapshotBar1 = ggChordSnapshots.snapshot(bar(1));
         expect(snapshotBar1.data.root, 'F');
-        expect(snapshotBar1.timePosition, bar(0));
+        expect(snapshotBar1.validFrom, bar(0));
 
         final snapshotBar2 = ggChordSnapshots.snapshot(bar(2));
         expect(snapshotBar2.data.root, 'C');
-        expect(snapshotBar2.timePosition, bar(2));
+        expect(snapshotBar2.validFrom, bar(2));
 
         final snapshotBar3 = ggChordSnapshots.snapshot(bar(3));
         expect(snapshotBar3.data.root, 'F');
-        expect(snapshotBar3.timePosition, bar(3));
+        expect(snapshotBar3.validFrom, bar(3));
 
         final snapshotBar5 = ggChordSnapshots.snapshot(bar(5));
         expect(snapshotBar5.data.root, 'F');
-        expect(snapshotBar5.timePosition, bar(3));
+        expect(snapshotBar5.validFrom, bar(3));
       });
     });
   });
