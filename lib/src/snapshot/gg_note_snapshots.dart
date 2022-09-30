@@ -37,10 +37,12 @@ class GgNoteSnapshots extends GgSnapshotHandler<List<Note>> {
   /// - [part] is the document the snapshots are generated for
   /// - [frameDuration] the time window considered for the snapshot
   GgNoteSnapshots({
-    required super.part,
+    required this.part,
   }) {
     _init();
   }
+
+  final Part part;
 
   // ######################
   // Private

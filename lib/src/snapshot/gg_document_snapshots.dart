@@ -7,34 +7,28 @@
 import 'package:music_xml/music_xml.dart';
 
 import '../sample_xml/whole_piece/gg_whole_piece_xml.dart';
+import 'gg_multi_snapshots.dart';
 import 'gg_part_snapshots.dart';
-import 'typedefs.dart';
 
 // #############################################################################
-class GgDocumentSnapshot {
-  const GgDocumentSnapshot({
-    required this.partSnapshots,
-    required this.validFrom,
-    required this.validTo,
-  });
-
-  final List<GgPartSnapshot> partSnapshots;
-  final Seconds validFrom;
-  final Seconds validTo;
-}
+typedef GgDocumentSnapshot = GgMultiSnapshot<GgPartSnapshot>;
 
 // #############################################################################
-class GgDocumentSnapshots {
+class GgDocumentSnapshots extends GgMultiSnapshots<dynamic> {
   GgDocumentSnapshots({
     required this.document,
-  }) {
+  }) : super(
+          snapshotHandlers: document.parts.map(
+            (e) => GgPartSnapshots(part: e),
+          ),
+        ) {
     _init();
   }
 
   // ...........................................................................
-  final MusicXmlDocument document;
 
-  /// Returns all part snapshots
+  // ...........................................................................
+  final MusicXmlDocument document;
   Iterable<GgPartSnapshots> get partSnapshots => _partSnapshots.values;
 
   // ######################
@@ -49,9 +43,6 @@ class GgDocumentSnapshots {
       _partSnapshots[part.id] = GgPartSnapshots(part: part);
     }
   }
-
-  // ...........................................................................
-  void _jumpToOrBefore(Seconds timePosition) {}
 }
 
 // #############################################################################

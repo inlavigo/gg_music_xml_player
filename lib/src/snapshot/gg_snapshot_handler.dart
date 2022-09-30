@@ -4,22 +4,14 @@
 // Use of this source code is governed by terms that can be
 // found in the LICENSE file in the root of this package.
 
-import 'package:music_xml/music_xml.dart';
-
-import '../sample_xml/whole_piece/gg_whole_piece_xml.dart';
 import 'gg_snapshot.dart';
 import 'typedefs.dart';
 
 // #############################################################################
 abstract class GgSnapshotHandler<T> {
-  GgSnapshotHandler({
-    required this.part,
-  }) {
+  GgSnapshotHandler() {
     _init();
   }
-
-  // ...........................................................................
-  final Part part;
 
   /// Returns the initial snapshot
   T get seed;
@@ -215,9 +207,7 @@ abstract class GgSnapshotHandler<T> {
 
 // #############################################################################
 class ExampleSnapshotHandler extends GgSnapshotHandler<int> {
-  ExampleSnapshotHandler({
-    required super.part,
-  }) {
+  ExampleSnapshotHandler() {
     _addFurtherSnapshots();
   }
 
@@ -238,6 +228,4 @@ class ExampleSnapshotHandler extends GgSnapshotHandler<int> {
   }
 }
 
-final exampleGgSnapshotHandler = ExampleSnapshotHandler(
-  part: wholePieceXmlDoc.parts.first,
-);
+final exampleGgSnapshotHandler = ExampleSnapshotHandler();

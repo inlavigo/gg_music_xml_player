@@ -16,10 +16,13 @@ typedef GgChordSnapshot = GgSnapshot<ChordSymbol>;
 /// Generates snapshots for chords
 class GgChordSnapshots extends GgSnapshotHandler<ChordSymbol> {
   GgChordSnapshots({
-    required super.part,
+    required this.part,
   }) {
     _init();
   }
+
+  // ...........................................................................
+  final Part part;
 
   // ...........................................................................
   @override

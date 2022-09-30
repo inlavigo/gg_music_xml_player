@@ -30,7 +30,7 @@ class GgPartSnapshot extends GgMultiSnapshot {
 
 // #############################################################################
 /// Manages all snapshots for a given part
-class GgPartSnapshots extends GgMultiSnapshots {
+class GgPartSnapshots extends GgMultiSnapshots<dynamic> {
   GgPartSnapshots({
     required this.part,
   }) : super(snapshotHandlers: [
@@ -75,11 +75,11 @@ class GgPartSnapshots extends GgMultiSnapshots {
     final multi = super.snapshot(timePosition);
 
     _currentSnapshot = GgPartSnapshot(
-      data: multi.snapshots,
+      data: multi.data,
       validFrom: multi.validFrom,
       validTo: multi.validTo,
-      chordSnapshot: multi.snapshots[0] as GgChordSnapshot,
-      noteSnapshot: multi.snapshots[1] as GgNoteSnapshot,
+      chordSnapshot: multi.data.elementAt(0) as GgChordSnapshot,
+      noteSnapshot: multi.data.elementAt(1) as GgNoteSnapshot,
     );
   }
 }
