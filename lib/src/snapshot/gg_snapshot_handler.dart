@@ -11,8 +11,8 @@ import 'gg_snapshot.dart';
 import 'typedefs.dart';
 
 // #############################################################################
-abstract class GgSnapshotParser<T> {
-  GgSnapshotParser({
+abstract class GgSnapshotHandler<T> {
+  GgSnapshotHandler({
     required this.part,
     this.frameDuration = const Duration(milliseconds: 20),
   }) {
@@ -76,12 +76,14 @@ abstract class GgSnapshotParser<T> {
   // ...........................................................................
   void jumpToBeginning() {
     _currentSnapshot = snapshots.first;
+    _nextSnapshot = snapshots.length > 1 ? snapshots[1] : _currentSnapshot;
     _indexOfCurrentSnapshot = 0;
   }
 
   // ...........................................................................
   void jumpToOrBefore(Seconds timePosition) {
-    if (_currentSnapshot.timePosition == timePosition) {
+    if (timePosition >= _currentSnapshot.timePosition &&
+        timePosition < _nextSnapshot.timePosition) {
       return;
     }
 
@@ -191,6 +193,7 @@ abstract class GgSnapshotParser<T> {
   final _snapshots = <GgSnapshot<T>>[];
   var _indexOfCurrentSnapshot = 0;
   late GgSnapshot<T> _currentSnapshot;
+  late GgSnapshot<T> _nextSnapshot;
 
   // ...........................................................................
   void _init() {
@@ -205,14 +208,16 @@ abstract class GgSnapshotParser<T> {
       measure: part.measures.first,
     );
 
+    _nextSnapshot = _currentSnapshot;
+
     _indexOfCurrentSnapshot = 0;
     _snapshots.add(_currentSnapshot);
   }
 }
 
 // #############################################################################
-class ExampleSnapshotParser extends GgSnapshotParser<int> {
-  ExampleSnapshotParser({
+class ExampleSnapshotHandler extends GgSnapshotHandler<int> {
+  ExampleSnapshotHandler({
     required super.part,
   }) {
     _addFurtherSnapshots();
@@ -236,6 +241,6 @@ class ExampleSnapshotParser extends GgSnapshotParser<int> {
   }
 }
 
-final exampleGgSnapshotParser = ExampleSnapshotParser(
+final exampleGgSnapshotHandler = ExampleSnapshotHandler(
   part: wholePieceXmlDoc.parts.first,
 );

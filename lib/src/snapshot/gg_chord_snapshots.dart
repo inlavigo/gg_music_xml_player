@@ -9,12 +9,12 @@ import 'package:collection/collection.dart';
 
 import '../sample_xml/whole_piece/gg_whole_piece_xml.dart';
 import 'gg_snapshot.dart';
-import 'gg_snapshot_parser.dart';
+import 'gg_snapshot_handler.dart';
 
 typedef GgChordSnapshot = GgSnapshot<ChordSymbol>;
 
 /// Generates snapshots for chords
-class GgChordSnapshots extends GgSnapshotParser<ChordSymbol> {
+class GgChordSnapshots extends GgSnapshotHandler<ChordSymbol> {
   GgChordSnapshots({
     required super.part,
     super.frameDuration,

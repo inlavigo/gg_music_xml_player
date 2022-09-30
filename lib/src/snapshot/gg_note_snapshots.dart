@@ -8,7 +8,7 @@ import 'package:music_xml/music_xml.dart';
 
 import '../sample_xml/whole_piece/gg_whole_piece_xml.dart';
 import 'gg_snapshot.dart';
-import 'gg_snapshot_parser.dart';
+import 'gg_snapshot_handler.dart';
 import 'typedefs.dart';
 
 typedef GgNoteSnapshot = GgSnapshot<List<Note>>;
@@ -32,7 +32,7 @@ class _NoteEvent {
 
 // #############################################################################
 /// Calculates snapshots for a given time and a given part
-class GgNoteSnapshots extends GgSnapshotParser<List<Note>> {
+class GgNoteSnapshots extends GgSnapshotHandler<List<Note>> {
   // ...........................................................................
   /// - [part] is the document the snapshots are generated for
   /// - [frameDuration] the time window considered for the snapshot

@@ -4,65 +4,65 @@
 // Use of this source code is governed by terms that can be
 // found in the LICENSE file in the root of this package.
 
-import 'package:gg_music_xml_player/src/snapshot/gg_snapshot_parser.dart';
+import 'package:gg_music_xml_player/src/snapshot/gg_snapshot_handler.dart';
 import 'package:test/test.dart';
 
 void main() {
-  final parser = exampleGgSnapshotParser;
+  final handler = exampleGgSnapshotHandler;
 
   setUp(
     () {
-      parser.jumpToBeginning();
+      handler.jumpToBeginning();
     },
   );
 
-  group('GgSnapshotParser', () {
+  group('GgSnapshotHandler', () {
     // #########################################################################
     group('initialization', () {
       test('should work fine', () {
-        expect(parser, isNotNull);
-        expect(parser.snapshots.length, ExampleSnapshotParser.numSnapshots);
-        expect(parser.frameDuration, const Duration(milliseconds: 20));
-        expect(parser.snapshot(0.0), parser.snapshots.first);
-        expect(parser.part.id, 'P1');
-        expect(parser.seed, 0);
+        expect(handler, isNotNull);
+        expect(handler.snapshots.length, ExampleSnapshotHandler.numSnapshots);
+        expect(handler.frameDuration, const Duration(milliseconds: 20));
+        expect(handler.snapshot(0.0), handler.snapshots.first);
+        expect(handler.part.id, 'P1');
+        expect(handler.seed, 0);
       });
     });
 
     group('jumpToOrBefore, jumpToBeginning', () {
       test('should set current snapshot to the right one', () {
-        expect(parser.currentSnapshot, parser.snapshots.first);
-        parser.jumpToOrBefore(100);
-        expect(parser.currentSnapshot, parser.snapshots.last);
-        parser.jumpToOrBefore(0.0);
-        expect(parser.currentSnapshot, parser.snapshots.first);
+        expect(handler.currentSnapshot, handler.snapshots.first);
+        handler.jumpToOrBefore(100);
+        expect(handler.currentSnapshot, handler.snapshots.last);
+        handler.jumpToOrBefore(0.0);
+        expect(handler.currentSnapshot, handler.snapshots.first);
       });
     });
 
     group('tryToReplaceLastSnapshot', () {
       test('should replace last snapshot if time matches, otherwise not', () {
-        expect(parser.currentSnapshot, parser.snapshots.first);
-        parser.jumpToOrBefore(100);
+        expect(handler.currentSnapshot, handler.snapshots.first);
+        handler.jumpToOrBefore(100);
 
         const replacedData = 50;
 
         // Time does not match -> dont' replace
-        var didReplace = parser.tryToReplaceLastSnapshot(
+        var didReplace = handler.tryToReplaceLastSnapshot(
             data: replacedData,
-            measure: parser.part.measures.last,
+            measure: handler.part.measures.last,
             timePosition: 123890);
 
         expect(didReplace, isFalse);
 
         // Time does match -> replace
-        didReplace = parser.tryToReplaceLastSnapshot(
+        didReplace = handler.tryToReplaceLastSnapshot(
           data: 50,
-          measure: parser.part.measures.last,
-          timePosition: parser.snapshots.last.timePosition,
+          measure: handler.part.measures.last,
+          timePosition: handler.snapshots.last.timePosition,
         );
 
         expect(didReplace, isTrue);
-        expect(parser.snapshots.last.data, replacedData);
+        expect(handler.snapshots.last.data, replacedData);
       });
     });
 
@@ -71,31 +71,31 @@ void main() {
       test('should return n snapshots beginning at timePosition', () {
         const count = 2;
         final futureSnapshots =
-            parser.futureSnapshots(timePosition: 0.0, count: count);
+            handler.futureSnapshots(timePosition: 0.0, count: count);
 
-        expect(futureSnapshots.first, parser.snapshots.first);
+        expect(futureSnapshots.first, handler.snapshots.first);
         expect(futureSnapshots.length, count);
       });
 
       test('should return available snapshots if count is too big', () {
         const count = 10000;
         final futureSnapshots =
-            parser.futureSnapshots(timePosition: 0.0, count: count);
+            handler.futureSnapshots(timePosition: 0.0, count: count);
 
-        expect(futureSnapshots.first, parser.snapshots.first);
-        expect(futureSnapshots.length, parser.snapshots.length);
+        expect(futureSnapshots.first, handler.snapshots.first);
+        expect(futureSnapshots.length, handler.snapshots.length);
       });
 
       test(
           'should return available snapshots if not enough snapshots are available anymore',
           () {
         const count = 5;
-        final futureSnapshots = parser.futureSnapshots(
-          timePosition: parser.snapshots.last.timePosition,
+        final futureSnapshots = handler.futureSnapshots(
+          timePosition: handler.snapshots.last.timePosition,
           count: count,
         );
 
-        expect(futureSnapshots.first, parser.snapshots.last);
+        expect(futureSnapshots.first, handler.snapshots.last);
         expect(futureSnapshots.length, 1);
       });
     });
@@ -105,11 +105,12 @@ void main() {
       test('should return n preceeding snapshots beginning at timePosition',
           () {
         const count = 5;
-        final referenceSnapshot = parser.snapshots.last;
-        final indexOfLastSnapshot = parser.snapshots.length - 1;
-        final firstSnapshot = parser.snapshots[indexOfLastSnapshot - count + 1];
+        final referenceSnapshot = handler.snapshots.last;
+        final indexOfLastSnapshot = handler.snapshots.length - 1;
+        final firstSnapshot =
+            handler.snapshots[indexOfLastSnapshot - count + 1];
 
-        final pastSnapshots = parser.pastSnapshots(
+        final pastSnapshots = handler.pastSnapshots(
           timePosition: referenceSnapshot.timePosition,
           count: count,
         );
@@ -123,10 +124,10 @@ void main() {
           'should return less snapshots if not enough snapshots are available anymore',
           () {
         const count = 5;
-        final referenceSnapshot = parser.snapshots.first;
+        final referenceSnapshot = handler.snapshots.first;
         final firstSnapshot = referenceSnapshot;
 
-        final pastSnapshots = parser.pastSnapshots(
+        final pastSnapshots = handler.pastSnapshots(
           timePosition: referenceSnapshot.timePosition,
           count: count,
         );
