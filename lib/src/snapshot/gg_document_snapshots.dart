@@ -8,7 +8,22 @@ import 'package:music_xml/music_xml.dart';
 
 import '../sample_xml/whole_piece/gg_whole_piece_xml.dart';
 import 'gg_part_snapshots.dart';
+import 'typedefs.dart';
 
+// #############################################################################
+class GgDocumentSnapshot {
+  const GgDocumentSnapshot({
+    required this.partSnapshots,
+    required this.validFrom,
+    required this.validTo,
+  });
+
+  final List<GgPartSnapshot> partSnapshots;
+  final Seconds validFrom;
+  final Seconds validTo;
+}
+
+// #############################################################################
 class GgDocumentSnapshots {
   GgDocumentSnapshots({
     required this.document,
@@ -34,6 +49,9 @@ class GgDocumentSnapshots {
       _partSnapshots[part.id] = GgPartSnapshots(part: part);
     }
   }
+
+  // ...........................................................................
+  void _jumpToOrBefore(Seconds timePosition) {}
 }
 
 // #############################################################################

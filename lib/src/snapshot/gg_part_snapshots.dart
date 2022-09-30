@@ -4,59 +4,73 @@
 // Use of this source code is governed by terms that can be
 // found in the LICENSE file in the root of this package.
 
-import 'dart:math';
-
 import 'package:music_xml/music_xml.dart';
 
 import '../sample_xml/whole_piece/gg_whole_piece_xml.dart';
 import 'gg_chord_snapshots.dart';
+import 'gg_multi_snapshots.dart';
 import 'gg_note_snapshots.dart';
+import 'gg_snapshot.dart';
 import 'typedefs.dart';
 
 // #############################################################################
-/// Data of a GgPartSnapshot
-class GgPartSnapshot {
+/// Wrap GgPartSnapshot around GgMultiSnapshot
+class GgPartSnapshot implements GgMultiSnapshot {
   const GgPartSnapshot({
+    required this.snapshots,
     required this.validFrom,
     required this.validTo,
-    required this.chordSnapshot,
+    required this.part,
     required this.noteSnapshot,
+    required this.chordSnapshot,
   });
 
+  // ...........................................................................
+  @override
   final Seconds validFrom;
+
+  @override
   final Seconds validTo;
+
+  @override
+  final List<GgSnapshot> snapshots;
+
+  // ...........................................................................
   final GgChordSnapshot chordSnapshot;
   final GgNoteSnapshot noteSnapshot;
+  final Part part;
 }
 
 // #############################################################################
 /// Manages all snapshots for a given part
-class GgPartSnapshots {
+class GgPartSnapshots extends GgMultiSnapshots {
   GgPartSnapshots({
     required this.part,
-  })  : chordSnapshots = GgChordSnapshots(part: part),
-        noteSnapshots = GgNoteSnapshots(part: part) {
+  }) : super(snapshotHandlers: [
+          GgChordSnapshots(part: part),
+          GgNoteSnapshots(part: part),
+        ]) {
     _init();
   }
 
   // ...........................................................................
   final Part part;
-  final GgChordSnapshots chordSnapshots;
-  final GgNoteSnapshots noteSnapshots;
+
+  // ...........................................................................
+  @override
+  GgPartSnapshot get currentSnapshot => _currentSnapshot;
 
   // ...........................................................................
   /// Returns the snapshot for a given position
+  @override
   GgPartSnapshot snapshot(Seconds timePosition) {
     if (timePosition < _currentSnapshot.validFrom ||
         timePosition >= _currentSnapshot.validTo) {
-      _jumpToOrBefore(timePosition);
+      _updateCurrentSnapshot(timePosition);
     }
 
     return _currentSnapshot;
   }
-
-  // ...........................................................................
-  GgPartSnapshot get currentSnapshot => _currentSnapshot;
 
   // ######################
   // Private
@@ -66,34 +80,20 @@ class GgPartSnapshots {
 
   // ...........................................................................
   void _init() {
-    _jumpToOrBefore(0.0);
+    _updateCurrentSnapshot(0.0);
   }
 
   // ...........................................................................
-  void _jumpToOrBefore(Seconds timePosition) {
-    chordSnapshots.jumpToOrBefore(timePosition);
-    final currentChordSnapshot = chordSnapshots.currentSnapshot;
-    final nextChordSnapshot = chordSnapshots.nextSnapshot;
-
-    noteSnapshots.jumpToOrBefore(timePosition);
-    final currentNoteSnapshot = noteSnapshots.currentSnapshot;
-    final nextNoteSnapshot = noteSnapshots.nextSnapshot;
-
-    final latestStartTime = max(
-      currentChordSnapshot.timePosition,
-      currentNoteSnapshot.timePosition,
-    );
-
-    final earliestBeginOfNextSnapshot = min(
-      nextChordSnapshot.timePosition,
-      nextNoteSnapshot.timePosition,
-    );
+  void _updateCurrentSnapshot(Seconds timePosition) {
+    final multi = super.snapshot(timePosition);
 
     _currentSnapshot = GgPartSnapshot(
-      validFrom: latestStartTime,
-      validTo: earliestBeginOfNextSnapshot,
-      chordSnapshot: currentChordSnapshot,
-      noteSnapshot: currentNoteSnapshot,
+      snapshots: multi.snapshots,
+      validFrom: multi.validFrom,
+      validTo: multi.validTo,
+      chordSnapshot: multi.snapshots[0] as GgChordSnapshot,
+      noteSnapshot: multi.snapshots[1] as GgNoteSnapshot,
+      part: part,
     );
   }
 }
