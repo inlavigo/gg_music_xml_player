@@ -38,7 +38,6 @@ class GgNoteSnapshots extends GgSnapshotHandler<List<Note>> {
   /// - [frameDuration] the time window considered for the snapshot
   GgNoteSnapshots({
     required super.part,
-    super.frameDuration,
   }) {
     _init();
   }

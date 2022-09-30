@@ -17,7 +17,6 @@ typedef GgChordSnapshot = GgSnapshot<ChordSymbol>;
 class GgChordSnapshots extends GgSnapshotHandler<ChordSymbol> {
   GgChordSnapshots({
     required super.part,
-    super.frameDuration,
   }) {
     _init();
   }

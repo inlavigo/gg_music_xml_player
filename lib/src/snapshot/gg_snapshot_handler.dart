@@ -14,14 +14,12 @@ import 'typedefs.dart';
 abstract class GgSnapshotHandler<T> {
   GgSnapshotHandler({
     required this.part,
-    this.frameDuration = const Duration(milliseconds: 20),
   }) {
     _init();
   }
 
   // ...........................................................................
   final Part part;
-  final Duration frameDuration;
 
   /// Returns the initial snapshot
   T get seed;

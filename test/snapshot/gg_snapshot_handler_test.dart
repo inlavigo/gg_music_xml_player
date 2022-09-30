@@ -22,7 +22,6 @@ void main() {
       test('should work fine', () {
         expect(handler, isNotNull);
         expect(handler.snapshots.length, ExampleSnapshotHandler.numSnapshots);
-        expect(handler.frameDuration, const Duration(milliseconds: 20));
         expect(handler.snapshot(0.0), handler.snapshots.first);
         expect(handler.part.id, 'P1');
         expect(handler.seed, 0);
