@@ -49,6 +49,9 @@ void main() {
         fakeAsync((fake) {
           init(fake);
           expect(player, isNotNull);
+
+          expect(exampleGgMusicXmlPlayer(), isNotNull);
+
           dispose(fake);
         });
       });

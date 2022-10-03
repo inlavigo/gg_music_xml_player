@@ -31,6 +31,11 @@ void main() {
         expect(cw(validFrom: 1.0) == timelineItem, isFalse);
         expect(cw(validFrom: 1.0).hashCode == timelineItem.hashCode, isFalse);
 
+        // validTo
+        expect(cw(validTo: 2.0).validTo, 2.0);
+        expect(cw(validTo: 2.0) == timelineItem, isFalse);
+        expect(cw(validTo: 2.0).hashCode == timelineItem.hashCode, isFalse);
+
         // data
         const x = 10;
         expect(cw(data: x).data, x);
