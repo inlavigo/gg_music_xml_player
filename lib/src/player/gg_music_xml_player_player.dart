@@ -5,11 +5,11 @@
 // found in the LICENSE file in the root of this package.
 
 import 'package:gg_time_controller/gg_time_controller.dart';
+import 'package:gg_typedefs/gg_typedefs.dart';
 import 'package:music_xml/music_xml.dart';
 
 import '../sample_xml/whole_piece/gg_whole_piece_xml.dart';
 import '../timeline/gg_document_timeline.dart';
-import '../timeline/typedefs.dart';
 
 typedef OnDocItem = void Function(GgDocumentItem items);
 
@@ -78,7 +78,7 @@ class GgMusicXmlPlayer {
   }
 
   // ...........................................................................
-  void _timerFired(Seconds time) {
+  void _timerFired(GgSeconds time) {
     final nothingHasChanged = time >= timeline.currentItem.validFrom &&
         time < timeline.currentItem.validTo;
     if (nothingHasChanged) {

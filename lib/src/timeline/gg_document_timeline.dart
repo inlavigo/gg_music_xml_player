@@ -5,11 +5,11 @@
 // found in the LICENSE file in the root of this package.
 
 import 'package:gg_timeline/gg_timeline.dart';
+import 'package:gg_typedefs/gg_typedefs.dart';
 import 'package:music_xml/music_xml.dart';
 
 import '../sample_xml/whole_piece/gg_whole_piece_xml.dart';
 import 'gg_part_timeline.dart';
-import 'typedefs.dart';
 
 // #############################################################################
 typedef GgDocumentItemData = List<GgPartItem>;
@@ -48,7 +48,7 @@ class GgDocumentTimeline extends GgTimeline<GgDocumentItemData> {
 
   // ...........................................................................
   void _initItems() {
-    List<Seconds> times = [];
+    List<GgSeconds> times = [];
 
     // Collect all times where something changes
     for (final handler in itemHandlers) {

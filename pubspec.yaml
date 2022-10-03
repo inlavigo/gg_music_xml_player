@@ -15,6 +15,7 @@ dependencies:
     #^1.0.0
     path: ../gg_time_controller
   gg_timeline: ^1.0.0+beta.1
+  gg_typedefs: ^1.0.0+beta.1
   music_xml:
     path: ../music_xml
     # git:

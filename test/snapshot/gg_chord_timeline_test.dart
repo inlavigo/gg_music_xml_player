@@ -5,7 +5,7 @@
 // found in the LICENSE file in the root of this package.
 
 import 'package:gg_music_xml_player/src/timeline/gg_chord_timeline.dart';
-import 'package:gg_music_xml_player/src/timeline/typedefs.dart';
+import 'package:gg_typedefs/gg_typedefs.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -23,7 +23,7 @@ void main() {
         expect(item0.data.root, 'F');
         expect(item0.validFrom, 0.0);
 
-        Seconds bar(int bar) {
+        GgSeconds bar(int bar) {
           return kickOff + bar * 2;
         }
 

@@ -5,10 +5,10 @@
 // found in the LICENSE file in the root of this package.
 
 import 'package:gg_timeline/gg_timeline.dart';
+import 'package:gg_typedefs/gg_typedefs.dart';
 import 'package:music_xml/music_xml.dart';
 
 import '../sample_xml/whole_piece/gg_whole_piece_xml.dart';
-import 'typedefs.dart';
 
 typedef GgNoteItem = GgTimelineItem<List<Note>>;
 
@@ -22,7 +22,7 @@ class _NoteEvent {
     required this.isBegin,
   });
 
-  final Seconds timePosition;
+  final GgSeconds timePosition;
   final Note note;
   final Part part;
   final Measure measure;
