@@ -7,28 +7,28 @@
 import 'package:music_xml/music_xml.dart';
 
 import '../sample_xml/whole_piece/gg_whole_piece_xml.dart';
-import 'gg_chord_snapshots.dart';
-import 'gg_note_snapshots.dart';
-import 'gg_snapshot.dart';
-import 'gg_snapshot_handler.dart';
+import 'gg_chord_timeline.dart';
+import 'gg_note_timeline.dart';
+import 'gg_timeline_item.dart';
+import 'gg_timeline.dart';
 import 'typedefs.dart';
 
-typedef GgPartSnapshotData = Iterable<GgSnapshot<dynamic>>;
-typedef GgPartSnapshot = GgSnapshot<GgPartSnapshotData>;
+typedef GgPartItemData = Iterable<GgTimelineItem<dynamic>>;
+typedef GgPartItem = GgTimelineItem<GgPartItemData>;
 
-extension GgPartSnapshotDataExtension on GgPartSnapshot {
-  GgChordSnapshot get chordSnapshot => data.elementAt(0) as GgChordSnapshot;
+extension GgPartItemDataExtension on GgPartItem {
+  GgChordItem get chordItem => data.elementAt(0) as GgChordItem;
 
-  GgNoteSnapshot get noteSnapshot => data.elementAt(1) as GgNoteSnapshot;
+  GgNoteItem get noteItem => data.elementAt(1) as GgNoteItem;
 }
 
 // #############################################################################
-/// Manages all snapshots for a given part
-class GgPartSnapshots extends GgSnapshotHandler<GgPartSnapshotData> {
-  GgPartSnapshots({
+/// Manages all items for a given part
+class GgPartItems extends GgTimeline<GgPartItemData> {
+  GgPartItems({
     required this.part,
-  })  : chordSnapshots = GgChordSnapshots(part: part),
-        noteSnapshots = GgNoteSnapshots(part: part) {
+  })  : chordItems = GgChordTimeline(part: part),
+        noteItems = GgNoteItems(part: part) {
     _init();
   }
 
@@ -36,17 +36,17 @@ class GgPartSnapshots extends GgSnapshotHandler<GgPartSnapshotData> {
   final Part part;
 
   // ...........................................................................
-  late Iterable<GgSnapshotHandler> snapshotHandlers;
+  late Iterable<GgTimeline> itemHandlers;
 
   // ...........................................................................
-  final GgChordSnapshots chordSnapshots;
-  final GgNoteSnapshots noteSnapshots;
+  final GgChordTimeline chordItems;
+  final GgNoteItems noteItems;
 
   // ...........................................................................
   @override
-  GgPartSnapshotData get seed => [
-        chordSnapshots.currentSnapshot,
-        noteSnapshots.currentSnapshot,
+  GgPartItemData get seed => [
+        chordItems.currentItem,
+        noteItems.currentItem,
       ];
 
   // ######################
@@ -55,19 +55,19 @@ class GgPartSnapshots extends GgSnapshotHandler<GgPartSnapshotData> {
 
   // ...........................................................................
   void _init() {
-    snapshotHandlers = [chordSnapshots, noteSnapshots];
-    _initSnapshots();
+    itemHandlers = [chordItems, noteItems];
+    _initItems();
     jumpToOrBefore(0.0);
   }
 
   // ...........................................................................
-  void _initSnapshots() {
+  void _initItems() {
     List<Seconds> times = [];
 
     // Collect all times where something changes
-    for (final handler in snapshotHandlers) {
-      for (final snapshot in handler.snapshots) {
-        times.add(snapshot.validFrom);
+    for (final handler in itemHandlers) {
+      for (final item in handler.items) {
+        times.add(item.validFrom);
       }
     }
 
@@ -76,22 +76,22 @@ class GgPartSnapshots extends GgSnapshotHandler<GgPartSnapshotData> {
       (a, b) => a.compareTo(b),
     );
 
-    // For each time create a snapshot
+    // For each time create a item
     for (int i = 0; i < times.length; i++) {
       final validFrom = times[i];
-      final data = <GgSnapshot>[];
+      final data = <GgTimelineItem>[];
 
-      for (final handler in snapshotHandlers) {
+      for (final handler in itemHandlers) {
         handler.jumpToOrBefore(validFrom);
-        data.add(handler.currentSnapshot);
+        data.add(handler.currentItem);
       }
 
-      addOrReplaceSnapshot(data: data, validFrom: validFrom);
+      addOrReplaceItem(data: data, validFrom: validFrom);
     }
   }
 }
 
 // #############################################################################
-final exampleGgPartSnapshots = GgPartSnapshots(
+final exampleGgPartTimeline = GgPartItems(
   part: wholePieceXmlDoc.parts.first,
 );

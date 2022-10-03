@@ -6,7 +6,7 @@
 
 import 'package:fake_async/fake_async.dart';
 import 'package:gg_music_xml_player/src/player/gg_music_xml_player_player.dart';
-import 'package:gg_music_xml_player/src/snapshot/gg_document_snapshots.dart';
+import 'package:gg_music_xml_player/src/timeline/gg_document_timeline.dart';
 import 'package:gg_time_controller/gg_time_controller.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:test/test.dart';
@@ -15,17 +15,17 @@ class FakeStopwatch extends Mock implements Stopwatch {}
 
 void main() {
   late GgMusicXmlPlayer player;
-  late GgDocumentSnapshot? currentSnapshot;
+  late GgDocumentItem? currentItem;
   final oneFrame = GgTimeController.defaultFrameDuration.toDuration;
   final stopwatch = FakeStopwatch();
   late FakeAsync fake;
 
-  void onSnapshot(GgDocumentSnapshot snapshot) => currentSnapshot = snapshot;
+  void onItem(GgDocumentItem item) => currentItem = item;
 
   void init(FakeAsync fk) {
     fake = fk;
     player = exampleGgMusicXmlPlayer(
-      onSnapshot: onSnapshot,
+      onItem: onItem,
       stopwatch: stopwatch,
     );
 
@@ -55,40 +55,40 @@ void main() {
     });
 
     // #########################################################################
-    group('onSnapshot', () {
-      test('should be called when a snapshot was updated', () {
+    group('onItem', () {
+      test('should be called when a item was updated', () {
         fakeAsync(
           (fake) {
             init(fake);
 
-            // Initially no snapshot is delivered
+            // Initially no item is delivered
             fake.flushMicrotasks();
-            var lastSnapshot = currentSnapshot!;
-            var restTime = lastSnapshot.validTo - lastSnapshot.validFrom;
-            expect(lastSnapshot.validFrom, 0.0);
-            expect(lastSnapshot.validTo, 0.5);
-            currentSnapshot = null;
+            var lastItem = currentItem!;
+            var restTime = lastItem.validTo - lastItem.validFrom;
+            expect(lastItem.validFrom, 0.0);
+            expect(lastItem.validTo, 0.5);
+            currentItem = null;
 
             fake.elapse(const Duration(seconds: 10));
-            expect(currentSnapshot, null);
+            expect(currentItem, null);
 
             // Press play
             player.timeController.play();
 
-            // Wait short before end of last snapshot
+            // Wait short before end of last item
             restTime = 0.01;
-            fake.elapse((lastSnapshot.validTo - restTime).toDuration);
+            fake.elapse((lastItem.validTo - restTime).toDuration);
             fake.flushMicrotasks();
 
             // Snatshot should not have been delivered
-            expect(currentSnapshot, isNull);
+            expect(currentItem, isNull);
 
             // Wait until frame end
             fake.elapse(restTime.toDuration + oneFrame);
             fake.flushMicrotasks();
-            expect(currentSnapshot!.validFrom, lastSnapshot.validTo);
-            expect(currentSnapshot!.validTo, 1.0);
-            lastSnapshot = currentSnapshot!;
+            expect(currentItem!.validFrom, lastItem.validTo);
+            expect(currentItem!.validTo, 1.0);
+            lastItem = currentItem!;
 
             // Press pause
             player.timeController.pause();
@@ -97,16 +97,16 @@ void main() {
             fake.elapse(const Duration(seconds: 5));
             fake.flushMicrotasks();
 
-            // Current snapshot should not have been changed
-            expect(currentSnapshot, lastSnapshot);
+            // Current item should not have been changed
+            expect(currentItem, lastItem);
 
             // Press play
             player.timeController.play();
 
-            // Wait to next snapshot
-            fake.elapse(currentSnapshot!.duration.toDuration);
-            expect(currentSnapshot, isNot(lastSnapshot));
-            expect(currentSnapshot?.validFrom, lastSnapshot.validTo);
+            // Wait to next item
+            fake.elapse(currentItem!.duration.toDuration);
+            expect(currentItem, isNot(lastItem));
+            expect(currentItem?.validFrom, lastItem.validTo);
 
             dispose(fake);
           },

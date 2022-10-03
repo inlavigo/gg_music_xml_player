@@ -8,14 +8,14 @@ import 'package:music_xml/music_xml.dart';
 import 'package:collection/collection.dart';
 
 import '../sample_xml/whole_piece/gg_whole_piece_xml.dart';
-import 'gg_snapshot.dart';
-import 'gg_snapshot_handler.dart';
+import 'gg_timeline_item.dart';
+import 'gg_timeline.dart';
 
-typedef GgChordSnapshot = GgSnapshot<ChordSymbol>;
+typedef GgChordItem = GgTimelineItem<ChordSymbol>;
 
-/// Generates snapshots for chords
-class GgChordSnapshots extends GgSnapshotHandler<ChordSymbol> {
-  GgChordSnapshots({
+/// Generates items for chords
+class GgChordTimeline extends GgTimeline<ChordSymbol> {
+  GgChordTimeline({
     required this.part,
   }) {
     _init();
@@ -41,7 +41,7 @@ class GgChordSnapshots extends GgSnapshotHandler<ChordSymbol> {
   void _init() {
     for (final measure in part.measures) {
       for (final chordSymbol in measure.chordSymbols) {
-        addOrReplaceSnapshot(
+        addOrReplaceItem(
           validFrom: chordSymbol.timePosition,
           data: chordSymbol,
         );
@@ -53,6 +53,6 @@ class GgChordSnapshots extends GgSnapshotHandler<ChordSymbol> {
 }
 
 // #############################################################################
-final exampleGgChordSnapshots = GgChordSnapshots(
+final exampleGgChordTimeline = GgChordTimeline(
   part: wholePieceXmlDoc.parts.first,
 );

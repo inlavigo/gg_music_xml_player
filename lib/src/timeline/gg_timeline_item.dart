@@ -8,9 +8,9 @@ import 'package:music_xml/music_xml.dart';
 
 import 'typedefs.dart';
 
-/// Defines a snapshot of music xml data for a given time position
-class GgSnapshot<T> {
-  const GgSnapshot({
+/// Defines a item of music xml data for a given time position
+class GgTimelineItem<T> {
+  const GgTimelineItem({
     required this.validFrom,
     required this.validTo,
     required this.data,
@@ -23,14 +23,14 @@ class GgSnapshot<T> {
   Seconds get duration => validTo - validFrom;
 
   // ...........................................................................
-  GgSnapshot<T> copyWith({
+  GgTimelineItem<T> copyWith({
     Seconds? validFrom,
     Seconds? validTo,
     Part? part,
     Measure? measure,
     T? data,
   }) {
-    return GgSnapshot(
+    return GgTimelineItem(
       validFrom: validFrom ?? this.validFrom,
       validTo: validTo ?? this.validTo,
       data: data ?? this.data,
@@ -42,7 +42,7 @@ class GgSnapshot<T> {
   bool operator ==(Object other) {
     return identical(this, other) ||
         (runtimeType == other.runtimeType &&
-            (other is GgSnapshot) &&
+            (other is GgTimelineItem) &&
             (other.validFrom == validFrom) &&
             (other.validTo == validTo) &&
             (other.data == data));
@@ -54,7 +54,7 @@ class GgSnapshot<T> {
 }
 
 // #############################################################################
-const exampleGgSnapshot = GgSnapshot<int>(
+const exampleGgTimelineItem = GgTimelineItem<int>(
   validFrom: 0.0,
   validTo: 0.0,
   data: 0,

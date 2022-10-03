@@ -7,18 +7,18 @@
 import 'package:music_xml/music_xml.dart';
 
 import '../sample_xml/whole_piece/gg_whole_piece_xml.dart';
-import 'gg_part_snapshots.dart';
-import 'gg_snapshot.dart';
-import 'gg_snapshot_handler.dart';
+import 'gg_part_timeline.dart';
+import 'gg_timeline_item.dart';
+import 'gg_timeline.dart';
 import 'typedefs.dart';
 
 // #############################################################################
-typedef GgDocumentSnapshotData = List<GgPartSnapshot>;
-typedef GgDocumentSnapshot = GgSnapshot<GgDocumentSnapshotData>;
+typedef GgDocumentItemData = List<GgPartItem>;
+typedef GgDocumentItem = GgTimelineItem<GgDocumentItemData>;
 
 // #############################################################################
-class GgDocumentSnapshots extends GgSnapshotHandler<GgDocumentSnapshotData> {
-  GgDocumentSnapshots({
+class GgDocumentTimeline extends GgTimeline<GgDocumentItemData> {
+  GgDocumentTimeline({
     required this.document,
   }) {
     _init();
@@ -28,11 +28,11 @@ class GgDocumentSnapshots extends GgSnapshotHandler<GgDocumentSnapshotData> {
   final MusicXmlDocument document;
 
   // ...........................................................................
-  late Iterable<GgPartSnapshots> snapshotHandlers;
+  late Iterable<GgPartItems> itemHandlers;
 
   // ...........................................................................
   @override
-  GgDocumentSnapshotData get seed => [];
+  GgDocumentItemData get seed => [];
 
   // ######################
   // Private
@@ -40,21 +40,21 @@ class GgDocumentSnapshots extends GgSnapshotHandler<GgDocumentSnapshotData> {
 
   // ...........................................................................
   void _init() {
-    snapshotHandlers = document.parts.map(
-      (e) => GgPartSnapshots(part: e),
+    itemHandlers = document.parts.map(
+      (e) => GgPartItems(part: e),
     );
-    _initSnapshots();
+    _initItems();
     jumpToOrBefore(0.0);
   }
 
   // ...........................................................................
-  void _initSnapshots() {
+  void _initItems() {
     List<Seconds> times = [];
 
     // Collect all times where something changes
-    for (final handler in snapshotHandlers) {
-      for (final snapshot in handler.snapshots) {
-        times.add(snapshot.validFrom);
+    for (final handler in itemHandlers) {
+      for (final item in handler.items) {
+        times.add(item.validFrom);
       }
     }
 
@@ -63,22 +63,22 @@ class GgDocumentSnapshots extends GgSnapshotHandler<GgDocumentSnapshotData> {
       (a, b) => a.compareTo(b),
     );
 
-    // For each time create a snapshot
+    // For each time create a item
     for (int i = 0; i < times.length; i++) {
       final validFrom = times[i];
-      final GgDocumentSnapshotData data = [];
+      final GgDocumentItemData data = [];
 
-      for (final handler in snapshotHandlers) {
+      for (final handler in itemHandlers) {
         handler.jumpToOrBefore(validFrom);
-        data.add(handler.currentSnapshot);
+        data.add(handler.currentItem);
       }
 
-      addOrReplaceSnapshot(data: data, validFrom: validFrom);
+      addOrReplaceItem(data: data, validFrom: validFrom);
     }
   }
 }
 
 // #############################################################################
-final exampleGgDocumentSnapshots = GgDocumentSnapshots(
+final exampleGgDocumentTimeline = GgDocumentTimeline(
   document: wholePieceXmlDoc,
 );

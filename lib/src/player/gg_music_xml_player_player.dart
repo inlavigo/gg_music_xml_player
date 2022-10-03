@@ -8,15 +8,15 @@ import 'package:gg_time_controller/gg_time_controller.dart';
 import 'package:music_xml/music_xml.dart';
 
 import '../sample_xml/whole_piece/gg_whole_piece_xml.dart';
-import '../snapshot/gg_document_snapshots.dart';
-import '../snapshot/typedefs.dart';
+import '../timeline/gg_document_timeline.dart';
+import '../timeline/typedefs.dart';
 
-typedef OnDocSnapshot = void Function(GgDocumentSnapshot snapshots);
+typedef OnDocItem = void Function(GgDocumentItem items);
 
 class GgMusicXmlPlayer {
   GgMusicXmlPlayer({
     required this.document,
-    required this.onSnapshot,
+    required this.onItem,
     double? frameRate,
     Stopwatch? stopwatch,
     GgPeriodicTimer? timer,
@@ -65,37 +65,37 @@ class GgMusicXmlPlayer {
 
   // ...........................................................................
   final MusicXmlDocument document;
-  late GgDocumentSnapshots snapshots;
-  final OnDocSnapshot onSnapshot;
+  late GgDocumentTimeline timeline;
+  final OnDocItem onItem;
 
   // ######################
   // Private
   // ######################
 
   void _initDocument() {
-    snapshots = GgDocumentSnapshots(document: document);
-    onSnapshot(snapshots.currentSnapshot);
+    timeline = GgDocumentTimeline(document: document);
+    onItem(timeline.currentItem);
   }
 
   // ...........................................................................
   void _timerFired(Seconds time) {
-    final nothingHasChanged = time >= snapshots.currentSnapshot.validFrom &&
-        time < snapshots.currentSnapshot.validTo;
+    final nothingHasChanged = time >= timeline.currentItem.validFrom &&
+        time < timeline.currentItem.validTo;
     if (nothingHasChanged) {
       return;
     }
 
-    final newSnapshot = snapshots.snapshot(time);
-    onSnapshot(newSnapshot);
+    final newItem = timeline.item(time);
+    onItem(newItem);
   }
 }
 
 // #############################################################################
 GgMusicXmlPlayer exampleGgMusicXmlPlayer({
-  OnDocSnapshot? onSnapshot,
+  OnDocItem? onItem,
   Stopwatch? stopwatch,
 }) =>
     GgMusicXmlPlayer(
         document: wholePieceXmlDoc,
-        onSnapshot: onSnapshot ?? (_) {},
+        onItem: onItem ?? (_) {},
         stopwatch: stopwatch ?? Stopwatch());

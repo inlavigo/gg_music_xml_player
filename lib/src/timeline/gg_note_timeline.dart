@@ -7,11 +7,11 @@
 import 'package:music_xml/music_xml.dart';
 
 import '../sample_xml/whole_piece/gg_whole_piece_xml.dart';
-import 'gg_snapshot.dart';
-import 'gg_snapshot_handler.dart';
+import 'gg_timeline_item.dart';
+import 'gg_timeline.dart';
 import 'typedefs.dart';
 
-typedef GgNoteSnapshot = GgSnapshot<List<Note>>;
+typedef GgNoteItem = GgTimelineItem<List<Note>>;
 
 // #############################################################################
 class _NoteEvent {
@@ -31,12 +31,12 @@ class _NoteEvent {
 }
 
 // #############################################################################
-/// Calculates snapshots for a given time and a given part
-class GgNoteSnapshots extends GgSnapshotHandler<List<Note>> {
+/// Calculates items for a given time and a given part
+class GgNoteItems extends GgTimeline<List<Note>> {
   // ...........................................................................
-  /// - [part] is the document the snapshots are generated for
-  /// - [frameDuration] the time window considered for the snapshot
-  GgNoteSnapshots({
+  /// - [part] is the document the items are generated for
+  /// - [frameDuration] the time window considered for the item
+  GgNoteItems({
     required this.part,
   }) {
     _init();
@@ -50,11 +50,11 @@ class GgNoteSnapshots extends GgSnapshotHandler<List<Note>> {
 
   // ...........................................................................
   void _init() {
-    _initNoteSnapshots();
+    _initNoteItems();
   }
 
   // ...........................................................................
-  void _initNoteSnapshots() {
+  void _initNoteItems() {
     final activeNotes = <Note>[];
 
     // Iterate all note events
@@ -68,8 +68,8 @@ class GgNoteSnapshots extends GgSnapshotHandler<List<Note>> {
         activeNotes.remove(note);
       }
 
-      // Create a snapshots containing all active notes
-      addOrReplaceSnapshot(
+      // Create a items containing all active notes
+      addOrReplaceItem(
         data: [...activeNotes],
         validFrom: noteEvent.timePosition,
       );
@@ -121,6 +121,6 @@ class GgNoteSnapshots extends GgSnapshotHandler<List<Note>> {
 }
 
 // #############################################################################
-GgNoteSnapshots exampleNoteSnapshots() => GgNoteSnapshots(
+GgNoteItems exampleNoteTimeline() => GgNoteItems(
       part: wholePieceXmlDoc.parts.first,
     );
