@@ -4,13 +4,12 @@
 // Use of this source code is governed by terms that can be
 // found in the LICENSE file in the root of this package.
 
+import 'package:gg_timeline/gg_timeline.dart';
 import 'package:music_xml/music_xml.dart';
 
 import '../sample_xml/whole_piece/gg_whole_piece_xml.dart';
 import 'gg_chord_timeline.dart';
 import 'gg_note_timeline.dart';
-import 'gg_timeline_item.dart';
-import 'gg_timeline.dart';
 import 'typedefs.dart';
 
 typedef GgPartItemData = Iterable<GgTimelineItem<dynamic>>;
@@ -86,7 +85,7 @@ class GgPartItems extends GgTimeline<GgPartItemData> {
         data.add(handler.currentItem);
       }
 
-      addOrReplaceItem(data: data, validFrom: validFrom);
+      addOrReplaceItem(data: data, timePosition: validFrom);
     }
   }
 }

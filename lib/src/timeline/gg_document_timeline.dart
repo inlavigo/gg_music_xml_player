@@ -4,12 +4,11 @@
 // Use of this source code is governed by terms that can be
 // found in the LICENSE file in the root of this package.
 
+import 'package:gg_timeline/gg_timeline.dart';
 import 'package:music_xml/music_xml.dart';
 
 import '../sample_xml/whole_piece/gg_whole_piece_xml.dart';
 import 'gg_part_timeline.dart';
-import 'gg_timeline_item.dart';
-import 'gg_timeline.dart';
 import 'typedefs.dart';
 
 // #############################################################################
@@ -73,7 +72,7 @@ class GgDocumentTimeline extends GgTimeline<GgDocumentItemData> {
         data.add(handler.currentItem);
       }
 
-      addOrReplaceItem(data: data, validFrom: validFrom);
+      addOrReplaceItem(data: data, timePosition: validFrom);
     }
   }
 }

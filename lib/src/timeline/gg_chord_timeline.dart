@@ -4,12 +4,11 @@
 // Use of this source code is governed by terms that can be
 // found in the LICENSE file in the root of this package.
 
-import 'package:music_xml/music_xml.dart';
 import 'package:collection/collection.dart';
+import 'package:gg_timeline/gg_timeline.dart';
+import 'package:music_xml/music_xml.dart';
 
 import '../sample_xml/whole_piece/gg_whole_piece_xml.dart';
-import 'gg_timeline_item.dart';
-import 'gg_timeline.dart';
 
 typedef GgChordItem = GgTimelineItem<ChordSymbol>;
 
@@ -42,7 +41,7 @@ class GgChordTimeline extends GgTimeline<ChordSymbol> {
     for (final measure in part.measures) {
       for (final chordSymbol in measure.chordSymbols) {
         addOrReplaceItem(
-          validFrom: chordSymbol.timePosition,
+          timePosition: chordSymbol.timePosition,
           data: chordSymbol,
         );
       }

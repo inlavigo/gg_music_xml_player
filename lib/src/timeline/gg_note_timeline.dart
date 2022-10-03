@@ -4,11 +4,10 @@
 // Use of this source code is governed by terms that can be
 // found in the LICENSE file in the root of this package.
 
+import 'package:gg_timeline/gg_timeline.dart';
 import 'package:music_xml/music_xml.dart';
 
 import '../sample_xml/whole_piece/gg_whole_piece_xml.dart';
-import 'gg_timeline_item.dart';
-import 'gg_timeline.dart';
 import 'typedefs.dart';
 
 typedef GgNoteItem = GgTimelineItem<List<Note>>;
@@ -71,7 +70,7 @@ class GgNoteItems extends GgTimeline<List<Note>> {
       // Create a items containing all active notes
       addOrReplaceItem(
         data: [...activeNotes],
-        validFrom: noteEvent.timePosition,
+        timePosition: noteEvent.timePosition,
       );
     }
 
