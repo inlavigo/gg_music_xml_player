@@ -30,7 +30,7 @@ class GgChordTimeline extends GgTimeline<ChordSymbol> {
           .firstWhereOrNull((element) => element.chordSymbols.isNotEmpty)
           ?.chordSymbols
           .first ??
-      ChordSymbol(); // coverage:ignore-line
+      ChordSymbol.noChord; // coverage:ignore-line
 
   // ######################
   // Private

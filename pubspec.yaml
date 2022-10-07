@@ -11,15 +11,19 @@ dependencies:
   collection: ^1.16.0
   fake_async: ^1.3.1
   gg_periodic_timer: ^1.0.0+beta.1
-  gg_timeline: ^1.0.0+beta.1
+  gg_timeline:
+    git:
+      url: git@github.com:inlavigo/gg_timeline.git
+      ref: 09188fe89269c94104fe11d539e017d79c8c6b4f
   gg_time_controller: ^1.0.0+beta.7
   gg_typedefs: ^1.0.0+beta.1
   gg_value: ^1.3.6+4
 
   music_xml:
-    git:
-      url: git@github.com:de-men/music_xml.git
-      ref: 3f5d0ffba806f43475ee2fa4aa8a8295fa507de6
+    path: ../music_xml
+    # git:
+    #   url: git@github.com:de-men/music_xml.git
+    #   ref: 2014c13570681e68dbc76f55417e2bbb501c6bd2
 
 dev_dependencies:
   lints: ^2.0.0
