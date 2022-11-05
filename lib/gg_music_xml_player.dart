@@ -11,9 +11,12 @@ export 'package:gg_timeline/gg_timeline.dart';
 
 // Export own stuff
 export 'src/player/gg_music_xml_player_player.dart';
+
+export 'src/sample_xml/example_music_xml_doc/empty_music_xml_doc.dart';
 export 'src/sample_xml/example_music_xml_doc/example_music_xml_doc.dart';
 export 'src/sample_xml/example_music_xml_doc/example_music_xml_without_bass_track.dart';
-export 'src/sample_xml/example_music_xml_doc/empty_music_xml_doc.dart';
+export 'src/sample_xml/key_changes/example_music_xml_with_key_change.dart';
+
 export 'src/timelines/gg_chord_timeline.dart';
 export 'src/timelines/gg_key_timeline.dart';
 export 'src/timelines/gg_note_timeline.dart';
