@@ -8,7 +8,7 @@ import 'package:gg_music_xml_player/src/timelines/gg_key_timeline.dart';
 import 'package:test/test.dart';
 
 void main() {
-  final timeline = exampleGgKeySignatureTimeline;
+  final timeline = exampleGgKeyTimeline;
 
   group('GgKeySignatureTimeline', () {
     // #########################################################################

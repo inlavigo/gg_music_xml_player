@@ -51,6 +51,6 @@ class GgKeyTimeline extends GgTimeline<KeySignature> {
 }
 
 // #############################################################################
-final exampleGgKeySignatureTimeline = GgKeyTimeline(
+final exampleGgKeyTimeline = GgKeyTimeline(
   part: ggExampleMusicXmlDocWithKeyChange.parts.first,
 );
