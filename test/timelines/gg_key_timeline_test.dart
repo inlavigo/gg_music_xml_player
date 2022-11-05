@@ -5,10 +5,13 @@
 // found in the LICENSE file in the root of this package.
 
 import 'package:gg_music_xml_player/src/timelines/gg_key_timeline.dart';
+import 'package:gg_typedefs/gg_typedefs.dart';
 import 'package:test/test.dart';
 
 void main() {
   final timeline = exampleGgKeyTimeline;
+
+  GgSeconds time({required int bar}) => bar * 0.5 * 4;
 
   group('GgKeySignatureTimeline', () {
     // #########################################################################
@@ -18,15 +21,27 @@ void main() {
 
         final firstItem = timeline.items.first;
         expect(firstItem.data.key, 0);
+        expect(firstItem.validFrom, 0);
+        expect(firstItem.validTo, 4.0);
+        expect(firstItem.duration, 4.0);
         expect(firstItem.data.mode, 'major');
+        expect(timeline.item(time(bar: 0)), firstItem);
 
         final secondItem = timeline.items[1];
+        expect(secondItem.validFrom, 4.0);
+        expect(secondItem.validTo, 8.0);
+        expect(secondItem.duration, 4.0);
         expect(secondItem.data.key, 2);
         expect(secondItem.data.mode, 'major');
+        expect(timeline.item(time(bar: 2)), secondItem);
 
         final thirdItem = timeline.items[2];
-        expect(thirdItem.data.key, 4);
+        expect(thirdItem.validFrom, 8.0);
+        expect(thirdItem.validTo, double.infinity);
+        expect(thirdItem.duration, double.infinity);
         expect(thirdItem.data.mode, 'major');
+        expect(timeline.item(time(bar: 4)), thirdItem);
+        expect(timeline.item(time(bar: 4)), thirdItem);
       });
     });
   });
