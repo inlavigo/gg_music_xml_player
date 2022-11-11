@@ -8,7 +8,7 @@ import 'package:collection/collection.dart';
 import 'package:gg_timeline/gg_timeline.dart';
 import 'package:music_xml/music_xml.dart';
 
-import '../sample_xml/key_changes/example_music_xml_with_key_change.dart';
+import '../sample_xml/key_changes/gg_example_music_xml_key_changes.dart';
 
 typedef GgKeySignatureItem = GgTimelineItem<KeySignature>;
 
@@ -52,5 +52,5 @@ class GgKeyTimeline extends GgTimeline<KeySignature> {
 
 // #############################################################################
 final exampleGgKeyTimeline = GgKeyTimeline(
-  part: ggExampleMusicXmlDocWithKeyChange.parts.first,
+  part: ggExampleMusicXmlWithKeyChanges.parts.first,
 );

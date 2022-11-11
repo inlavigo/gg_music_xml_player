@@ -8,7 +8,7 @@ import 'package:gg_timeline/gg_timeline.dart';
 import 'package:gg_typedefs/gg_typedefs.dart';
 import 'package:music_xml/music_xml.dart';
 
-import '../sample_xml/example_music_xml_doc/example_music_xml_doc.dart';
+import '../sample_xml/bibabutzemann/with_bass/gg_example_music_xml_bibabutzemann_with_bass.dart';
 import 'gg_part_timeline.dart';
 
 // #############################################################################
@@ -79,5 +79,5 @@ class GgDocumentTimeline extends GgTimeline<GgDocumentItemData> {
 
 // #############################################################################
 final exampleGgDocumentTimeline = GgDocumentTimeline(
-  document: ggExampleMusicXmlDoc,
+  document: ggExampleMusicXmlBibabutzemannWithBass,
 );

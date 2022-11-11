@@ -8,7 +8,7 @@ import 'package:gg_timeline/gg_timeline.dart';
 import 'package:gg_typedefs/gg_typedefs.dart';
 import 'package:music_xml/music_xml.dart';
 
-import '../sample_xml/example_music_xml_doc/example_music_xml_doc.dart';
+import '../sample_xml/bibabutzemann/with_bass/gg_example_music_xml_bibabutzemann_with_bass.dart';
 
 typedef GgNoteItem = GgTimelineItem<List<Note>>;
 
@@ -121,5 +121,5 @@ class GgNoteTimeline extends GgTimeline<List<Note>> {
 
 // #############################################################################
 GgNoteTimeline exampleNoteTimeline() => GgNoteTimeline(
-      part: ggExampleMusicXmlDoc.parts.first,
+      part: ggExampleMusicXmlBibabutzemannWithBass.parts.first,
     );

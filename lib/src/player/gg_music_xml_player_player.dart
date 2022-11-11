@@ -9,7 +9,7 @@ import 'package:gg_time_controller/gg_time_controller.dart';
 import 'package:gg_typedefs/gg_typedefs.dart';
 import 'package:music_xml/music_xml.dart';
 
-import '../sample_xml/example_music_xml_doc/example_music_xml_doc.dart';
+import '../sample_xml/bibabutzemann/with_bass/gg_example_music_xml_bibabutzemann_with_bass.dart';
 import '../timelines/gg_document_timeline.dart';
 
 typedef OnDocItem = void Function(GgDocumentItem items);
@@ -97,6 +97,6 @@ GgMusicXmlPlayer exampleGgMusicXmlPlayer({
   Stopwatch? stopwatch,
 }) =>
     GgMusicXmlPlayer(
-        document: ggExampleMusicXmlDoc,
+        document: ggExampleMusicXmlBibabutzemannWithBass,
         onItem: onItem ?? (_) {},
         stopwatch: stopwatch ?? Stopwatch());

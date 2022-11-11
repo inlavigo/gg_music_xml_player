@@ -1,24 +1,24 @@
 import 'package:music_xml/music_xml.dart';
 
-/// Uses https://github.com/inlavigo/gg_music_xml_player/blob/develop/lib/src/sample_xml/example_music_xml_doc/example_music_xml_doc_without_bass_track.png
-final ggExampleMusicXmlDocWithoutBassTrack =
-    MusicXmlDocument.parse(ggExampleMusicXmlStringWithoutBassTrack);
+/// Uses https://github.com/inlavigo/gg_music_xml_player/blob/develop/lib/src/sample_xml/example_music_xml_doc/example_music_xml_doc.png
+final ggExampleMusicXmlBibabutzemannWithBass =
+    MusicXmlDocument.parse(ggExampleMusicXmlBibabutzemannWithBassString);
 
-const ggExampleMusicXmlStringWithoutBassTrack = '''
+const ggExampleMusicXmlBibabutzemannWithBassString = '''
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE score-partwise PUBLIC "-//Recordare//DTD MusicXML 3.1 Partwise//EN" "http://www.musicxml.org/dtds/partwise.dtd">
 <score-partwise version="3.1">
-  <movement-title>Es tanzt ein Bi-Ba-Butzemann</movement-title>
+  <movement-title>Es tanzt ein Bi-Ba-Butzemann </movement-title>
   <identification>
     <rights>©</rights>
     <encoding>
       <software>Finale v25 for Windows</software>
       <encoding-date>2022-09-18</encoding-date>
-      <supports attribute="new-system" element="print" type="yes" value="yes" />
-      <supports attribute="new-page" element="print" type="yes" value="yes" />
-      <supports element="accidental" type="yes" />
-      <supports element="beam" type="yes" />
-      <supports element="stem" type="yes" />
+      <supports attribute="new-system" element="print" type="yes" value="yes"/>
+      <supports attribute="new-page" element="print" type="yes" value="yes"/>
+      <supports element="accidental" type="yes"/>
+      <supports element="beam" type="yes"/>
+      <supports element="stem" type="yes"/>
     </encoding>
   </identification>
   <defaults>
@@ -63,14 +63,14 @@ const ggExampleMusicXmlStringWithoutBassTrack = '''
       <distance type="hyphen">120</distance>
       <distance type="beam">8</distance>
     </appearance>
-    <music-font font-family="Maestro,engraved" font-size="20.5" />
-    <word-font font-family="Times New Roman" font-size="10.25" />
-    <lyric-font font-family="Finale Lyrics" font-size="10.25" name="verse" />
-    <lyric-font font-family="Finale Lyrics" font-size="10.25" name="chorus" />
+    <music-font font-family="Maestro,engraved" font-size="20.5"/>
+    <word-font font-family="Times New Roman" font-size="10.25"/>
+    <lyric-font font-family="Finale Lyrics" font-size="10.25" name="verse"/>
+    <lyric-font font-family="Finale Lyrics" font-size="10.25" name="chorus"/>
   </defaults>
   <credit page="1">
     <credit-type>title</credit-type>
-    <credit-words default-x="616" default-y="1573" font-size="24" justify="center" valign="top">Es tanzt ein Bi-Ba-Butzemann</credit-words>
+    <credit-words default-x="616" default-y="1573" font-size="24" justify="center" valign="top">Es tanzt ein Bi-Ba-Butzemann </credit-words>
   </credit>
   <part-list>
     <score-part id="P1">
@@ -79,7 +79,7 @@ const ggExampleMusicXmlStringWithoutBassTrack = '''
       <score-instrument id="P1-I1">
         <instrument-name>ARIA Player</instrument-name>
         <instrument-sound>voice.vocals</instrument-sound>
-        <ensemble />
+        <ensemble/>
         <virtual-instrument>
           <virtual-library>Garritan Instruments for Finale</virtual-library>
           <virtual-name>009. Choir/Choir Ahs</virtual-name>
@@ -91,6 +91,25 @@ const ggExampleMusicXmlStringWithoutBassTrack = '''
         <midi-program>1</midi-program>
         <volume>80</volume>
         <pan>-70</pan>
+      </midi-instrument>
+    </score-part>
+    <score-part id="P2">
+      <part-name>E-Bass</part-name>
+      <part-abbreviation>E-Bs.</part-abbreviation>
+      <score-instrument id="P2-I2">
+        <instrument-name>ARIA Player</instrument-name>
+        <instrument-sound>pluck.bass.electric</instrument-sound>
+        <virtual-instrument>
+          <virtual-library>Garritan Instruments for Finale</virtual-library>
+          <virtual-name>011. Jazz/Jazz Fretted Bass KS</virtual-name>
+        </virtual-instrument>
+      </score-instrument>
+      <midi-device>ARIA Player</midi-device>
+      <midi-instrument id="P2-I2">
+        <midi-channel>2</midi-channel>
+        <midi-program>1</midi-program>
+        <volume>80</volume>
+        <pan>80</pan>
       </midi-instrument>
     </score-part>
   </part-list>
@@ -118,7 +137,7 @@ const ggExampleMusicXmlStringWithoutBassTrack = '''
           <line>2</line>
         </clef>
       </attributes>
-      <sound tempo="240" />
+      <sound tempo="240"/>
       <direction placement="below">
         <direction-type>
           <words default-y="-80" font-size="11.1" halign="right" relative-x="-17">Refr.</words>
@@ -620,7 +639,7 @@ const ggExampleMusicXmlStringWithoutBassTrack = '''
         </lyric>
       </note>
       <note default-x="101">
-        <rest />
+        <rest/>
         <duration>2</duration>
         <voice>1</voice>
         <type>quarter</type>
@@ -677,7 +696,7 @@ const ggExampleMusicXmlStringWithoutBassTrack = '''
         <duration>3</duration>
         <voice>1</voice>
         <type>quarter</type>
-        <dot />
+        <dot/>
         <stem default-y="5.5">up</stem>
         <lyric default-y="-75" name="verse" number="1">
           <syllabic>begin</syllabic>
@@ -760,7 +779,7 @@ const ggExampleMusicXmlStringWithoutBassTrack = '''
         <duration>3</duration>
         <voice>1</voice>
         <type>quarter</type>
-        <dot />
+        <dot/>
         <stem default-y="11">up</stem>
         <lyric default-y="-75" name="verse" number="1">
           <syllabic>begin</syllabic>
@@ -843,7 +862,7 @@ const ggExampleMusicXmlStringWithoutBassTrack = '''
         <duration>3</duration>
         <voice>1</voice>
         <type>quarter</type>
-        <dot />
+        <dot/>
         <stem default-y="5.5">up</stem>
         <lyric default-y="-75" name="verse" number="1">
           <syllabic>single</syllabic>
@@ -926,7 +945,7 @@ const ggExampleMusicXmlStringWithoutBassTrack = '''
         <duration>3</duration>
         <voice>1</voice>
         <type>quarter</type>
-        <dot />
+        <dot/>
         <stem default-y="11">up</stem>
         <lyric default-y="-75" name="verse" number="1">
           <syllabic>begin</syllabic>
@@ -1256,10 +1275,275 @@ const ggExampleMusicXmlStringWithoutBassTrack = '''
         </lyric>
       </note>
       <note default-x="100">
-        <rest />
+        <rest/>
         <duration>2</duration>
         <voice>1</voice>
         <type>quarter</type>
+      </note>
+      <barline location="right">
+        <bar-style>light-heavy</bar-style>
+      </barline>
+    </measure>
+  </part>
+  <!--=========================================================-->
+  <part id="P2">
+    <measure number="1" width="159">
+      <print>
+        <measure-numbering>none</measure-numbering>
+      </print>
+      <attributes>
+        <divisions>2</divisions>
+        <key>
+          <fifths>-1</fifths>
+          <mode>major</mode>
+        </key>
+        <time>
+          <beats>4</beats>
+          <beat-type>4</beat-type>
+        </time>
+        <clef>
+          <sign>F</sign>
+          <line>4</line>
+        </clef>
+        <transpose>
+          <diatonic>0</diatonic>
+          <chromatic>0</chromatic>
+          <octave-change>-1</octave-change>
+        </transpose>
+      </attributes>
+      <sound tempo="240"/>
+      <note default-x="115">
+        <pitch>
+          <step>F</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>2</duration>
+        <voice>1</voice>
+        <type>quarter</type>
+        <stem default-y="-45.5">down</stem>
+      </note>
+    </measure>
+    <!--=======================================================-->
+    <measure number="2" width="184">
+      <note default-x="13">
+        <pitch>
+          <step>F</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>8</duration>
+        <voice>1</voice>
+        <type>whole</type>
+      </note>
+    </measure>
+    <!--=======================================================-->
+    <measure number="3" width="186">
+      <note default-x="13">
+        <pitch>
+          <step>F</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>8</duration>
+        <voice>1</voice>
+        <type>whole</type>
+      </note>
+    </measure>
+    <!--=======================================================-->
+    <measure number="4" width="203">
+      <note default-x="13">
+        <pitch>
+          <step>C</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>8</duration>
+        <voice>1</voice>
+        <type>whole</type>
+      </note>
+    </measure>
+    <!--=======================================================-->
+    <measure number="5" width="219">
+      <note default-x="13">
+        <pitch>
+          <step>F</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>8</duration>
+        <voice>1</voice>
+        <type>whole</type>
+      </note>
+    </measure>
+    <!--=======================================================-->
+    <measure number="6" width="299">
+      <print new-system="yes"/>
+      <note default-x="80">
+        <pitch>
+          <step>F</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>8</duration>
+        <voice>1</voice>
+        <type>whole</type>
+      </note>
+    </measure>
+    <!--=======================================================-->
+    <measure number="7" width="236">
+      <note default-x="14">
+        <pitch>
+          <step>F</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>8</duration>
+        <voice>1</voice>
+        <type>whole</type>
+      </note>
+    </measure>
+    <!--=======================================================-->
+    <measure number="8" width="256">
+      <note default-x="13">
+        <pitch>
+          <step>C</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>8</duration>
+        <voice>1</voice>
+        <type>whole</type>
+      </note>
+    </measure>
+    <!--=======================================================-->
+    <measure number="9" width="160">
+      <note default-x="14">
+        <pitch>
+          <step>F</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>6</duration>
+        <tie type="start"/>
+        <voice>1</voice>
+        <type>half</type>
+        <dot/>
+        <stem default-y="-45">down</stem>
+        <notations>
+          <tied type="start"/>
+        </notations>
+      </note>
+      <barline location="right">
+        <bar-style>light-light</bar-style>
+      </barline>
+    </measure>
+    <!--=======================================================-->
+    <measure number="10" width="127">
+      <print new-system="yes"/>
+      <note default-x="83">
+        <pitch>
+          <step>F</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>2</duration>
+        <tie type="stop"/>
+        <voice>1</voice>
+        <type>quarter</type>
+        <stem default-y="-46">down</stem>
+        <notations>
+          <tied type="stop"/>
+        </notations>
+      </note>
+    </measure>
+    <!--=======================================================-->
+    <measure number="11" width="207">
+      <note default-x="14">
+        <pitch>
+          <step>C</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>8</duration>
+        <voice>1</voice>
+        <type>whole</type>
+      </note>
+    </measure>
+    <!--=======================================================-->
+    <measure number="12" width="206">
+      <note default-x="13">
+        <pitch>
+          <step>F</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>8</duration>
+        <voice>1</voice>
+        <type>whole</type>
+      </note>
+    </measure>
+    <!--=======================================================-->
+    <measure number="13" width="211">
+      <note default-x="13">
+        <pitch>
+          <step>C</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>8</duration>
+        <voice>1</voice>
+        <type>whole</type>
+      </note>
+    </measure>
+    <!--=======================================================-->
+    <measure number="14" width="200">
+      <note default-x="14">
+        <pitch>
+          <step>F</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>8</duration>
+        <voice>1</voice>
+        <type>whole</type>
+      </note>
+    </measure>
+    <!--=======================================================-->
+    <measure number="15" width="297">
+      <print new-system="yes"/>
+      <note default-x="80">
+        <pitch>
+          <step>F</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>8</duration>
+        <voice>1</voice>
+        <type>whole</type>
+      </note>
+    </measure>
+    <!--=======================================================-->
+    <measure number="16" width="233">
+      <note default-x="13">
+        <pitch>
+          <step>F</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>8</duration>
+        <voice>1</voice>
+        <type>whole</type>
+      </note>
+    </measure>
+    <!--=======================================================-->
+    <measure number="17" width="258">
+      <note default-x="14">
+        <pitch>
+          <step>C</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>8</duration>
+        <voice>1</voice>
+        <type>whole</type>
+      </note>
+    </measure>
+    <!--=======================================================-->
+    <measure number="18" width="162">
+      <note default-x="14">
+        <pitch>
+          <step>F</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>6</duration>
+        <voice>1</voice>
+        <type>half</type>
+        <dot/>
+        <stem default-y="-45.5">down</stem>
       </note>
       <barline location="right">
         <bar-style>light-heavy</bar-style>

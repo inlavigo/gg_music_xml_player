@@ -8,7 +8,7 @@ import 'package:collection/collection.dart';
 import 'package:gg_timeline/gg_timeline.dart';
 import 'package:music_xml/music_xml.dart';
 
-import '../sample_xml/example_music_xml_doc/example_music_xml_doc.dart';
+import '../sample_xml/bibabutzemann/with_bass/gg_example_music_xml_bibabutzemann_with_bass.dart';
 
 typedef GgChordItem = GgTimelineItem<ChordSymbol>;
 
@@ -25,12 +25,17 @@ class GgChordTimeline extends GgTimeline<ChordSymbol> {
 
   // ...........................................................................
   @override
-  ChordSymbol get seed =>
-      part.measures
-          .firstWhereOrNull((element) => element.chordSymbols.isNotEmpty)
-          ?.chordSymbols
-          .first ??
-      ChordSymbol.noChord; // coverage:ignore-line
+  ChordSymbol get seed {
+    final result = part.measures
+        .firstWhereOrNull((element) => element.chordSymbols.isNotEmpty)
+        ?.chordSymbols;
+
+    if (result == null || result.isEmpty) {
+      throw ArgumentError('MusicXml must contain at least one chord');
+    } else {
+      return result.first;
+    }
+  }
 
   // ######################
   // Private
@@ -53,5 +58,5 @@ class GgChordTimeline extends GgTimeline<ChordSymbol> {
 
 // #############################################################################
 final exampleGgChordTimeline = GgChordTimeline(
-  part: ggExampleMusicXmlDoc.parts.first,
+  part: ggExampleMusicXmlBibabutzemannWithBass.parts.first,
 );

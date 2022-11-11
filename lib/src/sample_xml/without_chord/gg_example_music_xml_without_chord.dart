@@ -6,9 +6,10 @@
 
 import 'package:music_xml/music_xml.dart';
 
-final tieXmlDoc = MusicXmlDocument.parse(tieXmlString);
+final ggExampleMusicXmlWithoutChord =
+    MusicXmlDocument.parse(ggExampleMusicXmlWithoutChordString);
 
-const tieXmlString = '''
+const ggExampleMusicXmlWithoutChordString = '''
 <?xml version="1.0" encoding="UTF-16" standalone="no"?>
 <!DOCTYPE score-partwise PUBLIC
     "-//Recordare//DTD MusicXML 1.1 Partwise//EN"

@@ -4,7 +4,7 @@
 // Use of this source code is governed by terms that can be
 // found in the LICENSE file in the root of this package.
 
-import 'package:gg_music_xml_player/src/sample_xml/tie/tie_xml.dart';
+import 'package:gg_music_xml_player/src/sample_xml/tied_note/gg_example_music_xml_tied_note.dart';
 import 'package:gg_music_xml_player/src/timelines/gg_note_timeline.dart';
 import 'package:test/test.dart';
 import 'package:fake_async/fake_async.dart';
@@ -38,7 +38,8 @@ void main() {
       });
 
       test('should load ties correctly', () {
-        final itemGenerator = GgNoteTimeline(part: tieXmlDoc.parts.first);
+        final itemGenerator =
+            GgNoteTimeline(part: ggExampleMusicXmlTiedNote.parts.first);
         expect(itemGenerator.items.length, 4);
 
         // The tied duration of the notes should span three measures

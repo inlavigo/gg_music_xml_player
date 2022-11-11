@@ -2,10 +2,10 @@ import 'package:music_xml/music_xml.dart';
 
 /// Uses https://github.com/inlavigo/gg_music_xml_player/blob/develop/lib/src/sample_xml/key_changes/example_music_xml_with_key_change.png
 
-final ggExampleMusicXmlDocWithKeyChange =
-    MusicXmlDocument.parse(ggExampleMusicXmlWithKeyChangeString);
+final ggExampleMusicXmlWithKeyChanges =
+    MusicXmlDocument.parse(ggExampleMusicXmlWithKeyChangesString);
 
-const ggExampleMusicXmlWithKeyChangeString = '''
+const ggExampleMusicXmlWithKeyChangesString = '''
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE score-partwise PUBLIC "-//Recordare//DTD MusicXML 2.0 Partwise//EN" "http://www.musicxml.org/dtds/partwise.dtd">
 

@@ -12,11 +12,13 @@ export 'package:gg_timeline/gg_timeline.dart';
 // Export own stuff
 export 'src/player/gg_music_xml_player_player.dart';
 
-export 'src/sample_xml/example_music_xml_doc/empty_music_xml_doc.dart';
-export 'src/sample_xml/example_music_xml_doc/example_music_xml_doc.dart';
-export 'src/sample_xml/example_music_xml_doc/example_music_xml_without_bass_track.dart';
-export 'src/sample_xml/key_changes/example_music_xml_with_key_change.dart';
-export 'src/sample_xml/tie/tie_xml.dart';
+export 'src/sample_xml/bibabutzemann/with_bass/gg_example_music_xml_bibabutzemann_with_bass.dart';
+export 'src/sample_xml/bibabutzemann/without_bass/gg_example_music_xml_bibabutzemann_without_bass.dart';
+export 'src/sample_xml/empty/gg_example_music_xml_empty.dart';
+export 'src/sample_xml/key_changes/gg_example_music_xml_key_changes.dart';
+export 'src/sample_xml/tempo_changes/gg_example_music_xml_tempo_changes.dart';
+export 'src/sample_xml/tied_note/gg_example_music_xml_tied_note.dart';
+export 'src/sample_xml/without_chord/gg_example_music_xml_without_chord.dart';
 
 export 'src/timelines/gg_chord_timeline.dart';
 export 'src/timelines/gg_key_timeline.dart';
