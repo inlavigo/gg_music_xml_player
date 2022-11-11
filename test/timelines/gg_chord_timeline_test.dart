@@ -47,9 +47,10 @@ void main() {
 
       test('should throw, if music xml contains no chords', () {
         expect(
-            () => GgChordTimeline(
-                part: ggExampleMusicXmlWithoutChord.parts.first),
-            throwsArgumentError);
+          () =>
+              GgChordTimeline(part: ggExampleMusicXmlWithoutChord.parts.first),
+          throwsArgumentError,
+        );
       });
     });
   });
