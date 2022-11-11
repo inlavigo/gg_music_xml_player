@@ -4,6 +4,7 @@
 // Use of this source code is governed by terms that can be
 // found in the LICENSE file in the root of this package.
 
+import 'package:gg_music_xml_player/src/sample_xml/without_chord/gg_example_music_xml_without_chord.dart';
 import 'package:gg_music_xml_player/src/timelines/gg_chord_timeline.dart';
 import 'package:gg_typedefs/gg_typedefs.dart';
 import 'package:test/test.dart';
@@ -42,6 +43,13 @@ void main() {
         final itemBar5 = timeline.item(bar(5));
         expect(itemBar5.data.root, 'F');
         expect(itemBar5.validFrom, bar(3));
+      });
+
+      test('should throw, if music xml contains no chords', () {
+        expect(
+            () => GgChordTimeline(
+                part: ggExampleMusicXmlWithoutChord.parts.first),
+            throwsArgumentError);
       });
     });
   });

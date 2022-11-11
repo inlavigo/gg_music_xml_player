@@ -10,8 +10,6 @@ export 'package:music_xml/music_xml.dart';
 export 'package:gg_timeline/gg_timeline.dart';
 
 // Export own stuff
-export 'src/player/gg_music_xml_player_player.dart';
-
 export 'src/sample_xml/bibabutzemann/with_bass/gg_example_music_xml_bibabutzemann_with_bass.dart';
 export 'src/sample_xml/bibabutzemann/without_bass/gg_example_music_xml_bibabutzemann_without_bass.dart';
 export 'src/sample_xml/empty/gg_example_music_xml_empty.dart';
