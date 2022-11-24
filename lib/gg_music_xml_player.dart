@@ -17,6 +17,7 @@ export 'src/sample_xml/key_changes/gg_example_music_xml_key_changes.dart';
 export 'src/sample_xml/tempo_changes/gg_example_music_xml_tempo_changes.dart';
 export 'src/sample_xml/tied_note/gg_example_music_xml_tied_note.dart';
 export 'src/sample_xml/without_chord/gg_example_music_xml_without_chord.dart';
+export 'src/sample_xml/pauses_and_notes/gg_example_music_xml_pauses_and_notes.dart';
 
 export 'src/timelines/gg_chord_timeline.dart';
 export 'src/timelines/gg_key_timeline.dart';
