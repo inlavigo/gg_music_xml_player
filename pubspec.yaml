@@ -14,7 +14,7 @@ dependencies:
   gg_timeline:
     git:
       url: git@github.com:inlavigo/gg_timeline.git
-      ref: 604c37f0266b8bdd0213e57aafff640872dfdd81
+      ref: ea0f9691cec8a9a4ded774d620181a3f38e01ee7
   gg_time_controller: ^1.0.0+beta.9
   gg_typedefs: ^1.0.0+beta.1
   gg_value: ^1.3.6+4
