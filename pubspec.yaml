@@ -24,7 +24,7 @@ dependencies:
     # path: ../music_xml
     git:
       url: git@github.com:de-men/music_xml.git
-      ref: 80788578dd56d1a39d47afa4afb0619b81e96ab2
+      ref: a222dff6d0fad052711165bebcaa97b55f2012e5
 
 dev_dependencies:
   lints: ^2.0.0
