@@ -21,10 +21,11 @@ dependencies:
   gg_value: ^1.3.6+4
 
   music_xml:
+    ^1.2.0
     # path: ../music_xml
-    git:
-      url: git@github.com:de-men/music_xml.git
-      ref: a222dff6d0fad052711165bebcaa97b55f2012e5
+    # git:
+    #   url: git@github.com:de-men/music_xml.git
+    #   ref: d4690bf8268c787641302041b128339f7cd74dfe
 
 dev_dependencies:
   lints: ^2.0.0
