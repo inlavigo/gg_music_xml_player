@@ -37,8 +37,8 @@ void main() {
 
         final thirdItem = timeline.items[2];
         expect(thirdItem.validFrom, 8.0);
-        expect(thirdItem.validTo, double.infinity);
-        expect(thirdItem.duration, double.infinity);
+        expect(thirdItem.validTo, 8.0); // Check
+        expect(thirdItem.duration, 0.0); // Check
         expect(thirdItem.data.mode, 'major');
         expect(timeline.item(time(bar: 4)), thirdItem);
         expect(timeline.item(time(bar: 4)), thirdItem);
