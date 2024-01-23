@@ -33,7 +33,7 @@ void main() {
 
           // Last bar
           expect(items[items.length - 2].data.last,
-              timeline.part.measures.last.notes.last);
+              timeline.part.measures.last.notes.last,);
         });
       });
 

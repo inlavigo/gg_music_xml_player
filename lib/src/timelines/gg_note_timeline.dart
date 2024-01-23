@@ -10,6 +10,7 @@ import 'package:music_xml/music_xml.dart';
 
 import '../sample_xml/bibabutzemann/with_bass/gg_example_music_xml_bibabutzemann_with_bass.dart';
 
+/// A note timeline item
 typedef GgNoteItem = GgTimelineItem<List<Note>>;
 
 // #############################################################################
@@ -41,6 +42,7 @@ class GgNoteTimeline extends GgTimeline<List<Note>> {
     _init();
   }
 
+  /// Returns the part
   final Part part;
 
   // ######################
@@ -120,6 +122,7 @@ class GgNoteTimeline extends GgTimeline<List<Note>> {
 }
 
 // #############################################################################
+/// Example note timeline for test purposes
 GgNoteTimeline exampleNoteTimeline() => GgNoteTimeline(
       part: ggExampleMusicXmlBibabutzemannWithBass.parts.first,
     );

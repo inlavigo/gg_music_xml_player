@@ -5,6 +5,7 @@ import 'package:music_xml/music_xml.dart';
 final ggExampleMusicXmlWithKeyChanges =
     MusicXmlDocument.parse(ggExampleMusicXmlWithKeyChangesString);
 
+/// Music xml with key changes
 const ggExampleMusicXmlWithKeyChangesString = '''
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE score-partwise PUBLIC "-//Recordare//DTD MusicXML 2.0 Partwise//EN" "http://www.musicxml.org/dtds/partwise.dtd">

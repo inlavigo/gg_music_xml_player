@@ -6,9 +6,11 @@
 
 import 'package:music_xml/music_xml.dart';
 
+/// Example music xml without chord
 final ggExampleMusicXmlWithoutChord =
     MusicXmlDocument.parse(ggExampleMusicXmlWithoutChordString);
 
+/// Example music xml without chord
 const ggExampleMusicXmlWithoutChordString = '''
 <?xml version="1.0" encoding="UTF-16" standalone="no"?>
 <!DOCTYPE score-partwise PUBLIC

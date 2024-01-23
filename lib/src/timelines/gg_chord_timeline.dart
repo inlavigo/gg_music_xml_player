@@ -10,10 +10,12 @@ import 'package:music_xml/music_xml.dart';
 
 import '../sample_xml/bibabutzemann/with_bass/gg_example_music_xml_bibabutzemann_with_bass.dart';
 
+/// Chord items
 typedef GgChordItem = GgTimelineItem<ChordSymbol>;
 
 /// Generates items for chords
 class GgChordTimeline extends GgTimeline<ChordSymbol> {
+  /// Constructor
   GgChordTimeline({
     required this.part,
   }) {
@@ -21,6 +23,7 @@ class GgChordTimeline extends GgTimeline<ChordSymbol> {
   }
 
   // ...........................................................................
+  /// Returns a part
   final Part part;
 
   // ...........................................................................
@@ -57,6 +60,7 @@ class GgChordTimeline extends GgTimeline<ChordSymbol> {
 }
 
 // #############################################################################
+/// Example chord timeline for test purposes
 final exampleGgChordTimeline = GgChordTimeline(
   part: ggExampleMusicXmlBibabutzemannWithBass.parts.first,
 );

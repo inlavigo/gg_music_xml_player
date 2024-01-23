@@ -2,8 +2,10 @@ import 'package:music_xml/music_xml.dart';
 
 /// Uses https://github.com/inlavigo/gg_music_xml_player/blob/develop/lib/src/sample_xml/example_music_xml_doc/example_music_xml_doc_without_bass_track.png
 final ggExampleMusicXmlBibabutzemannWithoutBass = MusicXmlDocument.parse(
-    ggExampleMusicXmlBibabutzemannWithBassStringWithoutBassTrack);
+  ggExampleMusicXmlBibabutzemannWithBassStringWithoutBassTrack,
+);
 
+/// Bibabuthemann with bass
 const ggExampleMusicXmlBibabutzemannWithBassStringWithoutBassTrack = '''
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE score-partwise PUBLIC "-//Recordare//DTD MusicXML 3.1 Partwise//EN" "http://www.musicxml.org/dtds/partwise.dtd">

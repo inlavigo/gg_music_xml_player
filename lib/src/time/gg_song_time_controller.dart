@@ -11,6 +11,7 @@ import '../sample_xml/bibabutzemann/with_bass/gg_example_music_xml_bibabutzemann
 
 /// Takes music xml  and yields past, current and future notes for a given time.
 class GgSongTimeController {
+  /// Constructor
   GgSongTimeController({
     required this.musicXmlDocument,
     GgTimeController? timeController,
@@ -20,6 +21,7 @@ class GgSongTimeController {
   }
 
   // ...........................................................................
+  /// Dispose object
   void dispose() {
     for (final d in _dispose.reversed) {
       d();
@@ -27,21 +29,33 @@ class GgSongTimeController {
   }
 
   // ...........................................................................
+  /// Returns the music xml document currently played
   final MusicXmlDocument musicXmlDocument;
+
+  /// Returns the time controller used for playing
   late GgTimeController timeController;
 
   // ...........................................................................
+  /// Start playing
   void play() {}
+
+  /// Pause playing
   void pause() {}
+
+  /// Stop playing
   void stop() {}
+
+  /// Jump to a given measure
   void jumpToMeasure() {}
+
+  /// Animate to a given measure
   void animateToMeasure() {}
 
   // ######################
   // Private
   // ######################
 
-  final List<Function()> _dispose = [];
+  final List<void Function()> _dispose = [];
   void _init() {
     _dispose.add(() {});
   }
@@ -63,6 +77,7 @@ class GgSongTimeController {
 }
 
 // #############################################################################
+/// Example object for tests
 GgSongTimeController exampleGgSongTimeController({
   MusicXmlDocument? document,
 }) =>

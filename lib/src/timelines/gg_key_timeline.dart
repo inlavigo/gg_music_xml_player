@@ -10,10 +10,12 @@ import 'package:music_xml/music_xml.dart';
 
 import '../sample_xml/key_changes/gg_example_music_xml_key_changes.dart';
 
+/// A key signature
 typedef GgKeySignatureItem = GgTimelineItem<KeySignature>;
 
 /// Generates items for chords
 class GgKeyTimeline extends GgTimeline<KeySignature> {
+  /// Constructor
   GgKeyTimeline({
     required this.part,
   }) {
@@ -21,6 +23,7 @@ class GgKeyTimeline extends GgTimeline<KeySignature> {
   }
 
   // ...........................................................................
+  /// Returns the part
   final Part part;
 
   // ...........................................................................
@@ -51,6 +54,7 @@ class GgKeyTimeline extends GgTimeline<KeySignature> {
 }
 
 // #############################################################################
+/// Example key timeline for test purposes
 final exampleGgKeyTimeline = GgKeyTimeline(
   part: ggExampleMusicXmlWithKeyChanges.parts.first,
 );

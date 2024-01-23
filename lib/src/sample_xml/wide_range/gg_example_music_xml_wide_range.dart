@@ -6,9 +6,11 @@
 
 import 'package:music_xml/music_xml.dart';
 
+/// Example music xml wide range
 final ggExampleMusicXmlWideRange =
     MusicXmlDocument.parse(ggExampleMusicXmlWideRangeString);
 
+/// Example music xml wide range
 const ggExampleMusicXmlWideRangeString = '''
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE score-partwise PUBLIC "-//Recordare//DTD MusicXML 1.1 Partwise//EN" "http://www.musicxml.org/dtds/partwise.dtd">

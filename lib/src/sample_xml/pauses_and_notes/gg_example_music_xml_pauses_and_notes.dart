@@ -6,9 +6,11 @@
 
 import 'package:music_xml/music_xml.dart';
 
+/// Example music xml with pauses and notes
 final ggExampleMusicXmlPausesAndNotes =
     MusicXmlDocument.parse(ggExampleMusicXmlPausesAndNotesString);
 
+/// Example music xml with pauses and notes
 const ggExampleMusicXmlPausesAndNotesString = '''
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE score-partwise PUBLIC
