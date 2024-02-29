@@ -80,7 +80,9 @@ class GgSongTimeController {
 /// Example object for tests
 GgSongTimeController exampleGgSongTimeController({
   MusicXmlDocument? document,
+  GgTimeController? timeController,
 }) =>
     GgSongTimeController(
       musicXmlDocument: document ?? ggExampleMusicXmlBibabutzemannWithBass,
+      timeController: timeController,
     );
